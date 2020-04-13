@@ -71,10 +71,13 @@ export const
   ARMOR = 25,
   WEAPON = 26,
 
-
   DRAGON = 29,
   ZOMBIE = 31,
   SNAKE = 35,
   OGER = 37,
   BAT = 39,
-  KOBOLD = 49;
+  KOBOLD = 49,
+
+  PLAY = 1,
+  MENU = 2,
+  GMOR = 3;

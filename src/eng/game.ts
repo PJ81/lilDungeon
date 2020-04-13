@@ -22,7 +22,7 @@ export default class Game {
 
     this.canvas = document.createElement('canvas');
     this.canvas.tabIndex = 0;
-    this.canvas.id = "main";
+    this.canvas.id = "mainCanvas";
     this.canvas.width = Const.WIDTH * Const.SCALE;
     this.canvas.height = Const.HEIGHT * Const.SCALE;
 
@@ -43,6 +43,9 @@ export default class Game {
         this.update(Math.min(this.deltaTime, .5));
       }
       this.lastTime = time;
+
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
       this.draw();
       requestAnimationFrame(this.loop);
     }

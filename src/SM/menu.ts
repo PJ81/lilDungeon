@@ -3,18 +3,20 @@ import Game from "../eng/game.js";
 import { PLAY } from "../eng/const.js";
 
 export default class Menu extends Game implements State {
+
+
   constructor() {
     super();
   }
 
   start() {
-    window.addEventListener("keydown", () => {
+    this.keyboard.addKey(32, () => {
       window.dispatchEvent(new CustomEvent("StateChange", {
         detail: {
           state: PLAY
         }
       }));
-    }, false);
+    });
     this.loop();
   }
 
@@ -23,15 +25,17 @@ export default class Menu extends Game implements State {
   }
 
   draw() {
-    this.ctx.font = "80px VT323";
+    this.ctx.font = "60px VT323";
     this.ctx.fillStyle = "#fff";
     this.ctx.textAlign = "center";
     this.ctx.fillText("MENU", this.canvas.width >> 1, 100);
-    this.ctx.font = "30px VT323";
-    this.ctx.fillText("ANY KEY TO PLAY", this.canvas.width >> 1, this.canvas.height * .9);
+    this.ctx.font = "24px VT323";
+    this.ctx.fillText("PRESS [SPACE] TO PLAY", this.canvas.width >> 1, this.canvas.height * .9);
   }
 
   terminate() {
+    this.keyboard.clear();
+    this.keyboard = null;
     document.getElementById("mainCanvas").remove();
   }
 }

@@ -59,7 +59,9 @@ export default class Dungeon {
           r.slots[s] = null;
         }
         const q = [Const.VSE, Const.VSW, Const.VNE, Const.VNW][Const.lcg.randNbrI(4)];
-        this.rooms[a][b].slots[q] = new Slot(Const.STAIRS, null);
+        const s = new Slot(Const.STAIRS, null);
+        s.pos = Const.SLOTS_POS[q];
+        this.rooms[px][py].slots[q] = s;
         break;
       }
     }

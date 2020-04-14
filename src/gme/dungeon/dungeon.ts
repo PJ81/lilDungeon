@@ -7,28 +7,21 @@ import Kobold from "../entity/monsters/kobold.js";
 export default class Dungeon {
   wid: number;
   hei: number;
-  depth: number;
   rooms: Room[][];
 
   constructor() {
     this.wid = 0;
     this.hei = 0;
-    this.depth = 0;
     this.rooms = [];
-  }
-
-  getStartPositon(): Point {
-    return new Point(this.wid >> 1, this.hei >> 1);
   }
 
   getRoom(p: Point): Room {
     return this.rooms[p.x][p.y];
   }
 
-  create(wid: number, hei: number, depth: number) {
+  create(wid: number, hei: number): Room {
     this.wid = wid;
     this.hei = hei;
-    this.depth = depth;
     this.rooms = [];
 
     for (let x = 0; x < this.wid; x++) {
@@ -60,9 +53,21 @@ export default class Dungeon {
         }
         const q = [Const.VSE, Const.VSW, Const.VNE, Const.VNW][Const.lcg.randNbrI(4)];
         const s = new Slot(Const.STAIRS, null);
-        s.pos = Const.SLOTS_POS[q];
-        this.rooms[px][py].slots[q] = s;
+        s.position = Const.SLOTS_POS[q];
+        this.rooms[a][b].slots[q] = s;
         break;
+      }
+    }
+    this.rooms[px][py].visited = true;
+    return this.rooms[px][py];
+  }
+
+  seedSlots(r: Room) {
+    for (let s = 0; s < 8; s++) {
+      if (Const.lcg.randPercent() < 15) {
+        const sl = new Slot(Const.KOBOLD, new Kobold(s));
+        sl.position = Const.SLOTS_POS[s];
+        r.slots[s] = sl;
       }
     }
   }
@@ -97,16 +102,6 @@ export default class Dungeon {
         d++;
       }
       count++;
-    }
-  }
-
-  seedSlots(r: Room) {
-    for (let s = 0; s < 8; s++) {
-      if (Const.lcg.randPercent() < 15) {
-        const sl = new Slot(Const.KOBOLD, new Kobold(s));
-        sl.pos = Const.SLOTS_POS[s];
-        r.slots[s] = sl;
-      }
     }
   }
 }

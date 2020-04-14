@@ -1,5 +1,4 @@
 import * as Const from "./const.js";
-import Resource from "./resources.js";
 import Keyboard from "../eng/keyboard.js";
 
 export default class Game {
@@ -14,13 +13,11 @@ export default class Game {
   lastTime: number;
   accumulator: number;
   deltaTime: number;
-  res: Resource;
   keyboard: Keyboard;
 
   loop: (time?: number) => void;
 
   constructor() {
-    this.res = new Resource();
     this.keyboard = new Keyboard();
     this.canvas = document.createElement('canvas');
     this.canvas.tabIndex = 0;

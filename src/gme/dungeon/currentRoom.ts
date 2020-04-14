@@ -2,8 +2,10 @@ import * as Const from "../../eng/const.js";
 import Room from "./room.js";
 import Resources from "../../eng/resources.js";
 import Point from "../../eng/point.js";
+import Slot from "./slot.js";
 
-export default class Renderer {
+export default class CurrentRoom {
+  room: Room;
   ctx: CanvasRenderingContext2D;
   res: Resources;
   img: HTMLImageElement;
@@ -11,19 +13,37 @@ export default class Renderer {
   constructor(ctx: CanvasRenderingContext2D, callBack: Function) {
     this.ctx = ctx;
     this.res = new Resources();
+
     this.res.loadImages(["rogue.png"], () => {
       this.img = this.res.images[0];
       callBack();
     });
   }
 
-  draw(r: Room, dark: boolean = true) {
+  updateRoom(i: number) {
+    this.setRoom(this.room.neighbours[i]);
+  }
+
+  clearSlot(i: number) {
+    this.room.slots[i] = null;
+  }
+
+  getSlot(i: number): Slot {
+    return this.room.slots[i];
+  }
+
+  setRoom(r: Room) {
+    if (!r) return;
+    this.room = r;
+    this.room.visited = true;
+  }
+
+  draw() {
     const ts = Const.TILE_S;
     const offset = new Point((Const.WIDTH >> 1) - ((5 * ts) >> 1), (Const.WIDTH >> 1) - ((5 * ts) >> 1));
-    this.drawRoom(r, offset, dark);
-    if (!dark)
-      this.ctx.drawImage(this.img, Const.PLAYER * ts, 0, ts, ts, offset.x + 2 * ts, offset.y + 2 * ts, ts, ts);
-    this.clearRoom(r);
+    this.drawRoom(this.room, offset, false);
+    this.ctx.drawImage(this.img, Const.PLAYER * ts, 0, ts, ts, offset.x + 2 * ts, offset.y + 2 * ts, ts, ts);
+    this.clearRoom(this.room);
   }
 
   clearRoom(r: Room) {
@@ -53,7 +73,7 @@ export default class Renderer {
       for (let s = 0; s < 8; s++) {
         if (r.slots[s]) {
           const sl = r.slots[s]
-          this.ctx.drawImage(this.img, (sl.itemType) * ts, 0, ts, ts, offset.x + sl.pos.x * ts, offset.y + sl.pos.y * ts, ts, ts);
+          this.ctx.drawImage(this.img, (sl.itemType) * ts, 0, ts, ts, offset.x + sl.position.x * ts, offset.y + sl.position.y * ts, ts, ts);
         }
       }
     }

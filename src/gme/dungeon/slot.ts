@@ -3,12 +3,12 @@ import Item from "../items/item.js";
 
 export default class Slot {
   itemType: number;
-  pos: Point;
+  position: Point;
   item: Item;
 
   constructor(itemType: number, item: Item) {
     this.itemType = itemType;
     this.item = item;
-    this.pos = new Point();
+    this.position = new Point();
   }
 }

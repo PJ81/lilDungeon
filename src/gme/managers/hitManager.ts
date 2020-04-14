@@ -1,6 +1,6 @@
 import * as Const from "../../eng/const.js";
-import Room from "../dungeon/room.js";
 import Monster from "../entity/monsters/monster.js";
+import Slot from "../dungeon/slot.js";
 
 
 export default class HitManager {
@@ -8,9 +8,7 @@ export default class HitManager {
     //
   }
 
-  hit(room: Room, hitDir: number) {
-    let slot = room.slots[hitDir]
-
+  hit(slot: Slot, hitDir: number) {
     if (!slot) {
       if (hitDir in [Const.VN, Const.VE, Const.VS, Const.VW]) {
         this.startEvent("Walk", hitDir);

@@ -3,8 +3,6 @@ import Game from "../eng/game.js";
 import { PLAY } from "../eng/const.js";
 
 export default class Menu extends Game implements State {
-
-
   constructor() {
     super();
   }
@@ -25,12 +23,13 @@ export default class Menu extends Game implements State {
   }
 
   draw() {
-    this.ctx.font = "60px VT323";
+    const m = this.canvas.width >> 1;
+    this.ctx.font = "30px Roboto Mono";
     this.ctx.fillStyle = "#fff";
     this.ctx.textAlign = "center";
-    this.ctx.fillText("MENU", this.canvas.width >> 1, 100);
-    this.ctx.font = "24px VT323";
-    this.ctx.fillText("PRESS [SPACE] TO PLAY", this.canvas.width >> 1, this.canvas.height * .9);
+    this.ctx.fillText("MENU", m, 60);
+    this.ctx.font = "12px Roboto Mono";
+    this.ctx.fillText("PRESS [SPACE] TO PLAY", m, this.canvas.height * .95);
   }
 
   terminate() {

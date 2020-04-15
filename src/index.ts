@@ -3,33 +3,54 @@ import State from "./SM/state.js";
 import GameOver from "./SM/gameOver.js";
 import Menu from "./SM/menu.js";
 import LilDung from "./SM/ld.js";
+import Game from "./eng/game.js";
 
-class MyGame {
+class MyGame extends Game {
   curState: State;
+  game: State;
+  over: State;
+  menu: State;
 
   constructor() {
+    super();
+    this.game = new LilDung(this.ctx);
+    this.menu = new Menu();
+    this.over = new GameOver();
+
     window.addEventListener("StateChange", (e: CustomEvent) => {
-      if (this.curState)
-        this.curState.terminate();
+      this.keyboard.clear();
       switch (e.detail.state) {
         case PLAY:
-          this.curState = new LilDung();
+          this.curState = this.game;
+          this.curState.start(this.keyboard, this.menu.playername)
           break;
         case MENU:
-          this.curState = new Menu();
+          this.curState = this.menu;
+          this.curState.start(this.keyboard);
           break;
         case GMOR:
-          this.curState = new GameOver();
+          this.curState = this.over;
+          this.curState.start(this.keyboard, e.detail.player, e.detail.monster);
           break;
       }
-      this.curState.start();
     });
+  }
+
+  update(dt: number) {
+    this.curState.update(dt);
+  }
+
+  draw() {
+    this.curState.draw(this.ctx);
   }
 }
 
-new MyGame();
+const g = new MyGame();
 window.dispatchEvent(new CustomEvent("StateChange", {
   detail: {
     state: MENU
   }
 }));
+
+while (!g.curState) { }
+g.loop();

@@ -47,7 +47,9 @@ export default class FightManager {
       if (player.health <= 0) {
         window.dispatchEvent(new CustomEvent("StateChange", {
           detail: {
-            state: Const.GMOR
+            state: Const.GMOR,
+            player: player,
+            monster: monster
           }
         }));
       }

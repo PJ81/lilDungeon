@@ -10,13 +10,13 @@ export default class CurrentRoom {
   res: Resources;
   img: HTMLImageElement;
 
-  constructor(ctx: CanvasRenderingContext2D, callBack: Function) {
+  constructor(ctx: CanvasRenderingContext2D) {//, callBack: Function) {
     this.ctx = ctx;
     this.res = new Resources();
 
     this.res.loadImages(["rogue.png"], () => {
       this.img = this.res.images[0];
-      callBack();
+      () => { };
     });
   }
 

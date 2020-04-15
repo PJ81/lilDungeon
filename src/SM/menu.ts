@@ -1,40 +1,47 @@
 import State from "./state.js";
-import Game from "../eng/game.js";
-import { PLAY } from "../eng/const.js";
+import { PLAY, PRESSED, WIDTH, HEIGHT } from "../eng/const.js";
+import NameGen from "../gme/tools/namegen.js";
+import Keyboard from "../eng/keyboard.js";
 
-export default class Menu extends Game implements State {
+export default class Menu extends State {
+  nameGen: NameGen;
+  playername: string;
+  newName: () => void;
+
   constructor() {
     super();
+    this.newName = () => { this.playername = this.nameGen.getName(); }
+    this.nameGen = new NameGen();
+    this.newName();
   }
 
-  start() {
-    this.keyboard.addKey(32, () => {
+  start(keyboard: Keyboard) {
+    keyboard.addKey(78, (e: number) => { if (e === PRESSED) this.newName(); });
+    keyboard.addKey(32, () => {
       window.dispatchEvent(new CustomEvent("StateChange", {
         detail: {
           state: PLAY
         }
       }));
     });
-    this.loop();
   }
 
   update(dt: number) {
     //
   }
 
-  draw() {
-    const m = this.canvas.width >> 1;
-    this.ctx.font = "30px Roboto Mono";
-    this.ctx.fillStyle = "#fff";
-    this.ctx.textAlign = "center";
-    this.ctx.fillText("MENU", m, 60);
-    this.ctx.font = "12px Roboto Mono";
-    this.ctx.fillText("PRESS [SPACE] TO PLAY", m, this.canvas.height * .95);
-  }
+  draw(ctx: CanvasRenderingContext2D) {
+    const m = WIDTH >> 1;
+    ctx.font = "30px Roboto Mono";
+    ctx.fillStyle = "#fff";
+    ctx.textAlign = "center";
+    ctx.fillText("MENU", m, 60);
 
-  terminate() {
-    this.keyboard.clear();
-    this.keyboard = null;
-    document.getElementById("mainCanvas").remove();
+    ctx.font = "12px Roboto Mono";
+    ctx.fillText(`Welcome ${this.playername}!`, m, 110);
+    ctx.fillText(`If you'd prefer another name, press[N]`, m, 127);
+
+    ctx.font = "10px Roboto Mono";
+    ctx.fillText("PRESS [SPACE] TO PLAY", m, HEIGHT * .95);
   }
 }

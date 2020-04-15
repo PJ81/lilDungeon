@@ -1,7 +1,8 @@
 import Keyboard from "../eng/keyboard.js";
 
 export default class State {
-  start() {
+  playername: string;
+  start(...args: any[]) {
     throw new Error("Method not implemented.");
   }
   update(dt: number) {
@@ -10,10 +11,7 @@ export default class State {
   draw(ctx: CanvasRenderingContext2D) {
     throw new Error("Method not implemented.");
   }
-  terminate() {
-    throw new Error("Method not implemented.");
-  }
   constructor() {
-    //
+    this.playername = "";
   }
 } 

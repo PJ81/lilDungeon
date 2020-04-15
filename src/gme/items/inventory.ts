@@ -5,8 +5,8 @@ export default class Inventory {
   maxItems: number;
 
   constructor(c: number) {
-    this.backpack = new Array(c);
     this.maxItems = c;
+    this.clear();
   }
 
   pick(i: Item) {
@@ -32,5 +32,9 @@ export default class Inventory {
       items.push(item.name);
     });
     return items;
+  }
+
+  clear() {
+    this.backpack = new Array(this.maxItems);
   }
 }

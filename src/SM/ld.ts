@@ -14,7 +14,6 @@ export default class LilDung extends State {
   hitManager: HitManager;
   fightManager: FightManager;
   player: Player;
-  playername: string;
   newLevel: () => void;
 
   constructor(ctx: CanvasRenderingContext2D) {

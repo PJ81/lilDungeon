@@ -22,7 +22,7 @@ class MyGame extends Game {
       switch (e.detail.state) {
         case PLAY:
           this.curState = this.game;
-          this.curState.start(this.keyboard, this.menu.playername)
+          this.curState.start(this.keyboard, (<Menu>this.menu).playername)
           break;
         case MENU:
           this.curState = this.menu;

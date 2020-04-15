@@ -7,7 +7,6 @@ import Keyboard from "../eng/keyboard.js";
 export default class GameOver extends State {
   monster: Monster;
   player: Player;
-  playername: string;
 
   constructor() {
     super();

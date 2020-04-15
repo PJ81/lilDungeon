@@ -12,7 +12,7 @@ export default class Player extends Entity {
   pointsToNextLevel: number;
 
   constructor(playername: string) {
-    super(name);
+    super(playername);
     this.inventory = new Inventory(8);
     this.reset();
   }

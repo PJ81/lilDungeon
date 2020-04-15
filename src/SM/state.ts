@@ -1,7 +1,4 @@
-import Keyboard from "../eng/keyboard.js";
-
 export default class State {
-  playername: string;
   start(...args: any[]) {
     throw new Error("Method not implemented.");
   }
@@ -12,6 +9,5 @@ export default class State {
     throw new Error("Method not implemented.");
   }
   constructor() {
-    this.playername = "";
   }
 } 

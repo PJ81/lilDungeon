@@ -5,6 +5,7 @@ export default class Slot {
   itemType: number;
   position: Point;
   item: Item;
+  index: number;
 
   constructor(itemType: number, item: Item) {
     this.itemType = itemType;

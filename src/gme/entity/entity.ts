@@ -22,9 +22,9 @@ export default class Entity extends Item {
   defChanceO: number;
 
   constructor(name: string) {
-    super(name);
-    this.weapon = new BareHands("Bare Claws");
-    this.armor = new CottonShirt("Thick Skin");
+    super(name, -1);
+    this.weapon = new BareHands(-1);
+    this.armor = new CottonShirt(-1);
     this.xperience = 0;
     this.health = 0;
     this.hitChance = 0;

@@ -51,33 +51,37 @@ export const
     new Point(3, 3)
   ],
 
+  PLAYER = 18,
+
   FLOOR = 0,
   WALL = 2,
   DOOR = 4,
-  PLAYER = 27,
-
   STAIRS = 6,
+  TRAP = 9,
 
-  SKELETON = 14,
-  CHEST = 26,
+  FOOD = 11,
+  COINS = 10,
+  POTION = 12,
+  CHEST = 17,
+  CARCASS = 8,
 
-  TRAP = 16,
+  KNIFE = 13,
+  SWORD = 15,
+  BREASTPLATE = 16,
+  CHAINMAIL = 14,
 
-  FOOD = 18,
-  COINS = 19,
-  POTION = 20,
-  BOW = 23,
-  SWORD = 24,
-  ARMOR = 25,
-  WEAPON = 26,
-
-  DRAGON = 29,
-  ZOMBIE = 31,
-  SNAKE = 35,
-  OGER = 37,
-  BAT = 39,
-  KOBOLD = 49,
+  BAT = 23,
+  SNAKE = 21,
+  KOBOLD = 24,
+  TROLL = 25,
+  ZOMBIE = 20,
+  YETI = 26,
+  OGER = 22,
+  DRAGON = 19,
 
   PLAY = 1,
   MENU = 2,
-  GMOR = 3;
+  GMOR = 3,
+
+  ARMOR = 1,
+  WEAPON = 2;

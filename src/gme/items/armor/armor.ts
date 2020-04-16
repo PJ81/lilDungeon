@@ -8,7 +8,7 @@ export default class Armor extends Equipment {
   defense: number;
   defChance: number;
 
-  constructor(name: string) {
-    super(name);
+  constructor(name: string, slot: number) {
+    super(name, slot);
   }
 }

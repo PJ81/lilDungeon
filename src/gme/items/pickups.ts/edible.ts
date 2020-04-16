@@ -1,6 +1,6 @@
-import Item from "./item.js";
+import Item from "../item.js";
 
-export default class Equipment extends Item {
+export default class Edible extends Item {
   health: number;
 
   constructor(name: string, slot: number) {

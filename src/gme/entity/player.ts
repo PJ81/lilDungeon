@@ -14,10 +14,10 @@ export default class Player extends Entity {
   constructor(playername: string) {
     super(playername);
     this.inventory = new Inventory(8);
-    this.reset();
+    this.reset(playername);
   }
 
-  reset() {
+  reset(playername: string) {
     this.setOriginals(15, 2, 2, 7, 7);
     this.equip(new CottonShirt("Cotton Shirt"));
     this.equip(new BareHands("Bare Hands"));
@@ -26,6 +26,7 @@ export default class Player extends Entity {
     this.gold = 0;
     this.moves = 0;
     this.depth = 1;
+    this.name = playername;
     this.inventory.clear();
   }
 }

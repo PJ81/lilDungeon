@@ -14,7 +14,7 @@ export default class CurrentRoom {
     this.ctx = ctx;
     this.res = new Resources();
 
-    this.res.loadImages(["rogue.png"], () => {
+    this.res.loadImages(["tiles.png"], () => {
       this.img = this.res.images[0];
       () => { };
     });

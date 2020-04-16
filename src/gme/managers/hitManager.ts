@@ -19,18 +19,16 @@ export default class HitManager {
         return;
       }
       switch (slot.itemType) {
-        case Const.SKELETON: break;
-        case Const.CHEST: break;
-        case Const.TRAP: break;
-        case Const.FOOD: break;
-        case Const.COINS: break;
-        case Const.POTION: break;
-        case Const.BOW: break;
-        case Const.SWORD: break;
-        case Const.ARMOR: break;
-        case Const.STAIRS:
-          this.startEvent("GoDown");
-          break;
+        case Const.CARCASS:
+        case Const.CHEST: this.startEvent("Surprise", slot.item); break;
+        case Const.FOOD: this.startEvent("Eat", slot.item); break;
+        case Const.POTION: this.startEvent("Drink", slot.item); break;
+        case Const.COINS: this.startEvent("Coins", slot.item); break;
+        case Const.KNIFE:
+        case Const.SWORD: this.startEvent("EquipWeapon", slot.item); break;
+        case Const.BREASTPLATE:
+        case Const.CHAINMAIL: this.startEvent("EquipArmor", slot.item); break;
+        case Const.STAIRS: this.startEvent("GoDown"); break;
       }
     }
   }

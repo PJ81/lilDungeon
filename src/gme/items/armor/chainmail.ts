@@ -1,8 +1,8 @@
 import Armor from "./armor.js";
 
-export default class CottonShirt extends Armor {
+export default class Chainmail extends Armor {
   constructor(slot: number) {
-    super("Cotton shirt", slot);
+    super("Chainmail", slot);
     this.defense = 2;
     this.health = 1;
     this.defChance = 15;

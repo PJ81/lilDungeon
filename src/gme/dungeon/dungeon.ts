@@ -3,6 +3,21 @@ import Room from "./room.js";
 import Point from "../../eng/point.js";
 import Slot from "./slot.js";
 import Kobold from "../entity/monsters/kobold.js";
+import Dragon from "../entity/monsters/dragon.js";
+import Oger from "../entity/monsters/oger.js";
+import Zombie from "../entity/monsters/zombie.js";
+import Snake from "../entity/monsters/snake.js";
+import Bat from "../entity/monsters/bat.js";
+import Chest from "../items/pickups.ts/chest.js";
+import Potion from "../items/pickups.ts/potion.js";
+import Sword from "../items/weapon/sword.js";
+import Chainmail from "../items/armor/chainmail.js";
+import Breastplate from "../items/armor/breastplate.js";
+import Food from "../items/pickups.ts/food.js";
+import Coin from "../items/pickups.ts/coin.js";
+import Knife from "../items/weapon/knife.js";
+import Yeti from "../entity/monsters/yeti.js";
+import Troll from "../entity/monsters/troll.js";
 
 export default class Dungeon {
   wid: number;
@@ -62,16 +77,6 @@ export default class Dungeon {
     return this.rooms[px][py];
   }
 
-  seedSlots(r: Room) {
-    for (let s = 0; s < 8; s++) {
-      if (Const.lcg.randPercent() < 15) {
-        const sl = new Slot(Const.KOBOLD, new Kobold(s));
-        sl.position = Const.SLOTS_POS[s];
-        r.slots[s] = sl;
-      }
-    }
-  }
-
   addRoom(r: Room, x: number, y: number, da: number, db: number, tr: Room[]) {
     const s = new Room();
     s.pos.set(x, y);
@@ -103,5 +108,84 @@ export default class Dungeon {
       }
       count++;
     }
+  }
+
+  seedSlots(r: Room) {
+    const monCount = Const.lcg.rollDice(1, 2),
+      pickup = Const.lcg.rollDice(1, 8),
+      equip = Const.lcg.rollDice(1, 17);
+
+    let s: number, sl: Slot;
+    for (let m = 0; m < monCount; m++) {
+      while (true) {
+        s = Const.lcg.randNbrI(8);
+        if (!r.slots[s]) {
+          r.slots[s] = this.createMonster(s);
+          break;
+        }
+      }
+    }
+
+    sl = null;
+    while (true) {
+      s = Const.lcg.randNbrI(8);
+      if (!r.slots[s]) {
+        switch (pickup) {
+          case 2: sl = new Slot(Const.FOOD, new Food(s)); break;
+          case 4: sl = new Slot(Const.POTION, new Potion(s)); break;
+          case 6: sl = new Slot(Const.COINS, new Coin(s)); break;
+          case 8: sl = new Slot(Const.CHEST, new Chest(s)); break;
+        }
+        break;
+      }
+    }
+    if (sl) {
+      r.slots[s] = sl;
+      sl.position = Const.SLOTS_POS[s];
+      sl.index = s;
+    }
+
+    sl = null;
+    while (true) {
+      s = Const.lcg.randNbrI(8);
+      if (!r.slots[s]) {
+        switch (equip) {
+          case 2: sl = new Slot(Const.KNIFE, new Knife(s)); break;
+          case 7: sl = new Slot(Const.CHAINMAIL, new Chainmail(s)); break;
+          case 12: sl = new Slot(Const.SWORD, new Sword(s)); break;
+          case 17: sl = new Slot(Const.BREASTPLATE, new Breastplate(s)); break;
+        }
+        break;
+      }
+    }
+    if (sl) {
+      r.slots[s] = sl;
+      sl.position = Const.SLOTS_POS[s];
+      sl.index = s;
+    }
+  }
+
+  createMonster(s: number): Slot {
+    let sl: Slot;
+    if (Const.lcg.randPercent() < 5) {
+      sl = new Slot(Const.DRAGON, new Dragon(s));
+    } else if (Const.lcg.randPercent() < 10) {
+      sl = new Slot(Const.OGER, new Oger(s));
+    } else if (Const.lcg.randPercent() < 15) {
+      sl = new Slot(Const.YETI, new Yeti(s));
+    } else if (Const.lcg.randPercent() < 20) {
+      sl = new Slot(Const.ZOMBIE, new Zombie(s));
+    } else if (Const.lcg.randPercent() < 25) {
+      sl = new Slot(Const.TROLL, new Troll(s));
+    } else if (Const.lcg.randPercent() < 30) {
+      sl = new Slot(Const.KOBOLD, new Kobold(s));
+    } else if (Const.lcg.randPercent() < 50) {
+      sl = new Slot(Const.SNAKE, new Snake(s));
+    } else {
+      sl = new Slot(Const.BAT, new Bat(s));
+    }
+    sl.position = Const.SLOTS_POS[s];
+    sl.index = s;
+    return sl;
   }
 }

@@ -1,5 +1,5 @@
-import * as Const from "./const.js";
 import Keyboard from "../eng/keyboard.js";
+import * as Const from "./const.js";
 
 export default class Game {
   draw() {

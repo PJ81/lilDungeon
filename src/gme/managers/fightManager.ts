@@ -1,7 +1,7 @@
 import * as Const from "../../eng/const.js";
 import Entity from "../entity/entity.js";
-import Player from "../entity/player.js";
 import Monster from "../entity/monsters/monster.js";
+import Player from "../entity/player.js";
 
 export default class FightManager {
   constructor() {

@@ -1,10 +1,10 @@
-import Item from "../items/item.js";
-import Weapon from "../items/weapon/weapon.js";
+import { ARMOR, WEAPON } from "../../eng/const.js";
 import Armor from "../items/armor/armor.js";
-import BareHands from "../items/weapon/bareHands.js";
 import CottonShirt from "../items/armor/cottonShirt.js";
 import Equipment from "../items/equipment.js";
-import { ARMOR, WEAPON } from "../../eng/const.js";
+import Item from "../items/item.js";
+import BareHands from "../items/weapon/bareHands.js";
+import Weapon from "../items/weapon/weapon.js";
 
 export default class Entity extends Item {
   weapon: Weapon;
@@ -31,7 +31,6 @@ export default class Entity extends Item {
     this.defChance = 0;
     this.attack = 0;
     this.defense = 0;
-    // -- original values --
     this.healthO = 0;
     this.attackO = 0;
     this.defenseO = 0;

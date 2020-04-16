@@ -1,5 +1,5 @@
-import Item from "../item.js";
 import { lcg } from "../../../eng/const.js";
+import Item from "../item.js";
 
 export default class Trap extends Item {
   damage: number;

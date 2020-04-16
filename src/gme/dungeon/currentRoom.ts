@@ -1,7 +1,7 @@
 import * as Const from "../../eng/const.js";
-import Room from "./room.js";
-import Resources from "../../eng/resources.js";
 import Point from "../../eng/point.js";
+import Resources from "../../eng/resources.js";
+import Room from "./room.js";
 import Slot from "./slot.js";
 
 export default class CurrentRoom {

@@ -1,6 +1,6 @@
 import * as Const from "../../eng/const.js";
-import Monster from "../entity/monsters/monster.js";
 import Slot from "../dungeon/slot.js";
+import Monster from "../entity/monsters/monster.js";
 
 
 export default class HitManager {

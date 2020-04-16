@@ -1,7 +1,7 @@
-import State from "./state.js";
-import { PLAY, PRESSED, WIDTH, HEIGHT } from "../eng/const.js";
-import NameGen from "../gme/tools/namegen.js";
+import { HEIGHT, PLAY, PRESSED, WIDTH } from "../eng/const.js";
 import Keyboard from "../eng/keyboard.js";
+import NameGen from "../gme/tools/namegen.js";
+import State from "./state.js";
 
 export default class Menu extends State {
   nameGen: NameGen;

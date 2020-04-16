@@ -1,5 +1,5 @@
-import Point from "./point.js";
 import LCG from "../gme/tools/lcg.js";
+import Point from "./point.js";
 
 export const
   lcg = new LCG(),

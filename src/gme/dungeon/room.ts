@@ -1,5 +1,5 @@
-import Slot from "./slot.js";
 import Point from "../../eng/point.js";
+import Slot from "./slot.js";
 
 export default class Room {
   pos: Point;

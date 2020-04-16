@@ -1,6 +1,3 @@
-/*const MAX_RATIO = 1 / Number.MAX_VALUE,
-  MIN_MAX_RATIO = -MAX_RATIO;*/
-
 export default class LCG {
   _seed: number;
   a: number;

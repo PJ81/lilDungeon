@@ -1,9 +1,9 @@
-import { PLAY, MENU, GMOR } from "./eng/const.js"
-import State from "./SM/state.js";
-import GameOver from "./SM/gameOver.js";
-import Menu from "./SM/menu.js";
-import LilDung from "./SM/ld.js";
+import { GMOR, MENU, PLAY } from "./eng/const.js";
 import Game from "./eng/game.js";
+import GameOver from "./SM/gameOver.js";
+import LilDung from "./SM/ld.js";
+import Menu from "./SM/menu.js";
+import State from "./SM/state.js";
 
 class MyGame extends Game {
   curState: State;

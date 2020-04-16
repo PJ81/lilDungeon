@@ -1,5 +1,5 @@
-import Edible from "./edible.js";
 import { lcg } from "../../../eng/const.js";
+import Edible from "./edible.js";
 
 export default class Potion extends Edible {
   constructor(slot: number) {

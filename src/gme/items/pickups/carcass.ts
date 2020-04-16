@@ -1,6 +1,6 @@
+import { TRAP } from "../../../eng/const.js";
 import Container from "./container.js";
 import Trap from "./trap.js";
-import { TRAP } from "../../../eng/const.js";
 
 export default class Carcass extends Container {
   constructor(slot: number) {

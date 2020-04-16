@@ -1,5 +1,4 @@
 import Item from "../item.js";
-import Coin from "./coin.js";
 
 export default class Container extends Item {
   createNewItem() {

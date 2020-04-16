@@ -7,16 +7,13 @@ import Player from "../gme/entity/player.js";
 import Monster from "../gme/entity/monsters/monster.js";
 import State from "./state.js";
 import Keyboard from "../eng/keyboard.js";
-import Item from "../gme/items/item.js";
-import Food from "../gme/items/pickups.ts/food.js";
-import Potion from "../gme/items/pickups.ts/potion.js";
-import Coin from "../gme/items/pickups.ts/coin.js";
+import Food from "../gme/items/pickups/food.js";
+import Coin from "../gme/items/pickups/coin.js";
 import Weapon from "../gme/items/weapon/weapon.js";
 import Armor from "../gme/items/armor/armor.js";
 import Slot from "../gme/dungeon/slot.js";
-import Snake from "../gme/entity/monsters/snake.js";
-import Carcass from "../gme/items/pickups.ts/carcass.js";
-import Container from "../gme/items/pickups.ts/container.js";
+import Carcass from "../gme/items/pickups/carcass.js";
+import Container from "../gme/items/pickups/container.js";
 
 export default class LilDung extends State {
   dungeon: Dungeon;
@@ -28,7 +25,6 @@ export default class LilDung extends State {
 
   constructor(ctx: CanvasRenderingContext2D) {
     super();
-
     window.addEventListener("Action", (e: CustomEvent) => this.handleAction(e.detail));
 
     this.draw = () => { this.curRoom.draw(); };
@@ -39,7 +35,7 @@ export default class LilDung extends State {
     this.hitManager = new HitManager();
     this.player = new Player("Player");
     this.dungeon = new Dungeon();
-    this.curRoom = new CurrentRoom(ctx);//, () => {this.newLevel();});
+    this.curRoom = new CurrentRoom(ctx);
   }
 
   handleAction(action: any) {

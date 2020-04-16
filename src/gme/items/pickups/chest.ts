@@ -1,5 +1,4 @@
 import Container from "./container.js";
-import Item from "../item.js";
 import Coin from "./coin.js";
 import { COINS } from "../../../eng/const.js";
 

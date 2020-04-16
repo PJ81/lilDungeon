@@ -51,9 +51,6 @@ export default class GameOver extends State {
     ctx.fillText("      * |    *     *    * || *     ", m, 295);
     ctx.fillText("_______)/\\\\//(\\/(/_\\)/\\//\\/||_)_____", m, 309);
 
-    //ctx.fillText("        " + this.makeLine(this.player.name) + "       ", m, 225);
-    //ctx.fillText("        |   killed by a   ||       ", m, 239);
-    //ctx.fillText("        " + this.makeLine(this.monster.name) + "       ", m, 253);
     ctx.fillText(this.player.name, m, 220);
     ctx.fillText("killed by a", m, 239);
     ctx.fillText(this.monster.name, m, 258);

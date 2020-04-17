@@ -11,5 +11,6 @@ export default class Slot {
     this.itemType = itemType;
     this.item = item;
     this.position = new Point();
+    this.index = -1;
   }
 }

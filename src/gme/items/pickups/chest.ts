@@ -8,7 +8,7 @@ export default class Chest extends Container {
   }
 
   createNewItem() {
-    this.item = new Coin(this.slot);
+    this.item = new Coin(this.slotIdx);
     this.itemType = COINS;
   }
 }

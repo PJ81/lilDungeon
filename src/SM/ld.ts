@@ -22,13 +22,15 @@ export default class LilDung extends State {
   fightManager: FightManager;
   player: Player;
   newLevel: () => void;
+  takeAStep: (dir: number) => void;
 
   constructor(ctx: CanvasRenderingContext2D) {
     super();
     window.addEventListener("Action", (e: CustomEvent) => this.handleAction(e.detail));
 
-    this.draw = () => { this.curRoom.draw(); };
-    this.newLevel = () => { this.curRoom.setRoom(this.dungeon.create(10, 10)); }
+    this.draw = () => this.curRoom.draw();
+    this.takeAStep = (dir: number) => this.curRoom.updateRoom(dir);
+    this.newLevel = () => this.curRoom.setRoom(this.dungeon.create(10, 10));
     this.update = (dt: number) => { };
 
     this.fightManager = new FightManager();
@@ -75,41 +77,54 @@ export default class LilDung extends State {
     this.newLevel();
   }
 
-  takeAStep(dir: number) {
-    this.curRoom.updateRoom(dir);
-  }
-
   fight(monster: Monster) {
     if (this.fightManager.fight(this.player, monster)) {
-      this.curRoom.clearSlot(monster.slot);
-      if (lcg.rollDice(1, 100) < 35) {
-        let sl = this.curRoom.getSlot(monster.slot);
-        sl = new Slot(CARCASS, new Carcass(monster.slot));
+      if (!this.dropItem(monster)) {
+        this.curRoom.clearSlot(monster.slotIdx);
       }
     }
   }
 
+  dropItem(monster: Monster): boolean {
+    const o = this.curRoom.getSlot(monster.slotIdx);
+    if (lcg.rollDice(1, 100) < 35) {
+      const sl = new Slot(CARCASS, new Carcass(monster.slotIdx));
+      sl.position = o.position;
+      sl.index = o.index;
+      this.curRoom.setSlot(monster.slotIdx, sl);
+      return true;
+    }
+    if (lcg.rollDice(1, 100) < 50) {
+      monster.slot.index = o.index;
+      monster.slot.position = o.position;
+      monster.slot.item.slotIdx = o.index;
+      this.curRoom.setSlot(monster.slotIdx, monster.slot);
+      return true;
+    }
+    return false;
+  }
+
   surprise(item: Container) {
-    let sl = this.curRoom.getSlot(item.slot);
+    let sl = this.curRoom.getSlot(item.slotIdx);
     sl.itemType = item.itemType;
     sl.item = item.item;
   }
 
   eatOrDrink(item: Food) {
-    this.curRoom.clearSlot(item.slot);
+    this.curRoom.clearSlot(item.slotIdx);
     this.player.health += item.health;
   }
 
   coins(item: Coin) {
-    this.curRoom.clearSlot(item.slot);
+    this.curRoom.clearSlot(item.slotIdx);
     this.player.gold += item.count;
   }
 
   equipWeapon(item: Weapon) {
-    this.curRoom.clearSlot(item.slot);
+    this.curRoom.clearSlot(item.slotIdx);
   }
 
   equipArmor(item: Armor) {
-    this.curRoom.clearSlot(item.slot);
+    this.curRoom.clearSlot(item.slotIdx);
   }
 }

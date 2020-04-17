@@ -37,8 +37,9 @@ export default class Dungeon {
   create(wid: number, hei: number): Room {
     this.wid = wid;
     this.hei = hei;
-    this.rooms = [];
-
+    if (this.rooms.length > 0) {
+      this.clearRooms();
+    }
     for (let x = 0; x < this.wid; x++) {
       this.rooms.push([]);
       for (let y = 0; y < this.hei; y++) {
@@ -187,5 +188,16 @@ export default class Dungeon {
     sl.position = Const.SLOTS_POS[s];
     sl.index = s;
     return sl;
+  }
+
+  clearRooms() {
+    for (let x = this.wid - 1; x > -1; x--) {
+      for (let y = this.hei - 1; y > -1; y--) {
+        if (this.rooms[x][y]) {
+          delete this.rooms[x][y];
+        }
+      }
+    }
+    this.rooms = [];
   }
 }

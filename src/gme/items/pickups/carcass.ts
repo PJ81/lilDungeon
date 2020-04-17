@@ -8,7 +8,7 @@ export default class Carcass extends Container {
   }
 
   createNewItem() {
-    this.item = new Trap(this.slot);
+    this.item = new Trap(this.slotIdx);
     this.itemType = TRAP;
   }
 }

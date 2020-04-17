@@ -10,26 +10,26 @@ export default class CurrentRoom {
   res: Resources;
   img: HTMLImageElement;
 
-  constructor(ctx: CanvasRenderingContext2D) {//, callBack: Function) {
+  updateRoom: (i: number) => void;
+  clearSlot: (i: number) => any;
+  getSlot: (i: number) => Slot;
+  setSlot: (i: number, slot: Slot) => Slot;
+  getRoom: () => Room;
+
+  constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
     this.res = new Resources();
+
+    this.updateRoom = (i: number) => this.setRoom(this.room.neighbours[i]);
+    this.clearSlot = (i: number) => this.room.slots[i] = null;
+    this.setSlot = (i: number, slot: Slot) => this.room.slots[i] = slot;
+    this.getSlot = (i: number): Slot => { return this.room.slots[i]; }
+    this.getRoom = (): Room => { return this.room; }
 
     this.res.loadImages(["tiles.png"], () => {
       this.img = this.res.images[0];
       () => { };
     });
-  }
-
-  updateRoom(i: number) {
-    this.setRoom(this.room.neighbours[i]);
-  }
-
-  clearSlot(i: number) {
-    this.room.slots[i] = null;
-  }
-
-  getSlot(i: number): Slot {
-    return this.room.slots[i];
   }
 
   setRoom(r: Room) {

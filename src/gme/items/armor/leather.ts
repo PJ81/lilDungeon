@@ -1,8 +1,8 @@
 import Armor from "./armor.js";
 
-export default class Breastplate extends Armor {
+export default class Leather extends Armor {
   constructor(slot: number) {
-    super("Breastplate", slot);
+    super("Leather", slot);
     this.defense = 2;
     this.health = 1;
     this.defChance = 15;

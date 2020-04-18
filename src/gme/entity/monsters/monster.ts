@@ -1,11 +1,11 @@
 import { BREASTPLATE, CHAINMAIL, COINS, FOOD, KNIFE, lcg, POTION, SWORD } from "../../../eng/const.js";
 import Slot from "../../dungeon/slot.js";
-import Breastplate from "../../items/armor/breastplate.js";
 import Chainmail from "../../items/armor/chainmail.js";
+import Breastplate from "../../items/armor/leather.js";
 import Coin from "../../items/pickups/coin.js";
 import Food from "../../items/pickups/food.js";
 import Potion from "../../items/pickups/potion.js";
-import Knife from "../../items/weapon/knife.js";
+import Knife from "../../items/weapon/dagger.js";
 import Sword from "../../items/weapon/sword.js";
 import Entity from "../entity.js";
 

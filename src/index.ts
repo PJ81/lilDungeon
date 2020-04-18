@@ -5,6 +5,8 @@ import LilDung from "./SM/ld.js";
 import Menu from "./SM/menu.js";
 import State from "./SM/state.js";
 
+//https://nethackwiki.com/wiki/Rogue_(game)
+
 class MyGame extends Game {
   curState: State;
   game: State;

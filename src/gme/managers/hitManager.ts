@@ -1,6 +1,6 @@
 import * as Const from "../../eng/const.js";
-import Slot from "../dungeon/slot.js";
 import Monster from "../entity/monsters/monster.js";
+import Item from "../items/item.js";
 
 
 export default class HitManager {
@@ -8,26 +8,26 @@ export default class HitManager {
     //
   }
 
-  hit(slot: Slot, hitDir: number) {
-    if (!slot) {
+  hit(itm: Item, hitDir: number) {
+    if (!itm) {
       if (hitDir in [Const.VN, Const.VE, Const.VS, Const.VW]) {
         this.startEvent("Walk", hitDir);
       }
     } else {
-      if (slot.item instanceof Monster) {
-        this.startEvent("Fight", slot.item);
+      if (itm instanceof Monster) {
+        this.startEvent("Fight", itm);
         return;
       }
-      switch (slot.itemType) {
+      switch (itm.type) {
         case Const.CARCASS:
-        case Const.CHEST: this.startEvent("Surprise", slot.item); break;
-        case Const.FOOD: this.startEvent("Eat", slot.item); break;
-        case Const.POTION: this.startEvent("Drink", slot.item); break;
-        case Const.COINS: this.startEvent("Coins", slot.item); break;
-        case Const.KNIFE:
-        case Const.SWORD: this.startEvent("EquipWeapon", slot.item); break;
-        case Const.BREASTPLATE:
-        case Const.CHAINMAIL: this.startEvent("EquipArmor", slot.item); break;
+        case Const.CHEST: this.startEvent("Surprise", itm); break;
+        case Const.FOOD: this.startEvent("Eat", itm); break;
+        case Const.POTION: this.startEvent("Drink", itm); break;
+        case Const.COIN: this.startEvent("Coins", itm); break;
+        case Const.DAGGER:
+        case Const.SWORD: this.startEvent("EquipWeapon", itm); break;
+        case Const.LEATHER:
+        case Const.CHAINMAIL: this.startEvent("EquipArmor", itm); break;
         case Const.STAIRS: this.startEvent("GoDown"); break;
       }
     }

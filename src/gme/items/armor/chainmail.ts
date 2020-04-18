@@ -1,8 +1,9 @@
+import { CHAINMAIL } from "../../../eng/const.js";
 import Armor from "./armor.js";
 
 export default class Chainmail extends Armor {
-  constructor(slot: number) {
-    super("Chainmail", slot);
+  constructor(idx: number) {
+    super("Chainmail", CHAINMAIL, idx);
     this.defense = 2;
     this.health = 1;
     this.defChance = 15;

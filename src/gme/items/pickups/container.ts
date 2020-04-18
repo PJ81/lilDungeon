@@ -8,8 +8,8 @@ export default class Container extends Item {
   item: Item;
   itemType: number;
 
-  constructor(name: string, slot: number) {
-    super(name, slot);
+  constructor(name: string, type: number, idx: number) {
+    super(name, type, idx);
     this.createNewItem();
   }
 }

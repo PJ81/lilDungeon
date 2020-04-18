@@ -3,13 +3,15 @@ import Point from "../../eng/point.js";
 import Bat from "../entity/monsters/bat.js";
 import Dragon from "../entity/monsters/dragon.js";
 import Kobold from "../entity/monsters/kobold.js";
+import Monster from "../entity/monsters/monster.js";
 import Oger from "../entity/monsters/oger.js";
 import Snake from "../entity/monsters/snake.js";
 import Troll from "../entity/monsters/troll.js";
 import Yeti from "../entity/monsters/yeti.js";
 import Zombie from "../entity/monsters/zombie.js";
 import Chainmail from "../items/armor/chainmail.js";
-import Breastplate from "../items/armor/leather.js";
+import Leather from "../items/armor/leather.js";
+import Item from "../items/item.js";
 import Chest from "../items/pickups/chest.js";
 import Coin from "../items/pickups/coin.js";
 import Food from "../items/pickups/food.js";
@@ -17,7 +19,6 @@ import Potion from "../items/pickups/potion.js";
 import Knife from "../items/weapon/dagger.js";
 import Sword from "../items/weapon/sword.js";
 import Room from "./room.js";
-import Slot from "./slot.js";
 
 export default class Dungeon {
   wid: number;
@@ -65,12 +66,11 @@ export default class Dungeon {
       if (this.rooms[a][b] && this.rooms[px][py].pos.distSqr(this.rooms[a][b].pos) > 22) {
         const r = this.rooms[a][b];
         for (let s = 0; s < 8; s++) {
-          r.slots[s] = null;
+          r.items[s] = null;
         }
         const q = [Const.VSE, Const.VSW, Const.VNE, Const.VNW][Const.lcg.randNbrI(4)];
-        const s = new Slot(Const.STAIRS, null);
-        s.position = Const.SLOTS_POS[q];
-        this.rooms[a][b].slots[q] = s;
+        const s = new Item("Stairs", Const.STAIRS, q);
+        this.rooms[a][b].items[q] = s;
         break;
       }
     }
@@ -116,78 +116,68 @@ export default class Dungeon {
       pickup = Const.lcg.rollDice(1, 8),
       equip = Const.lcg.rollDice(1, 17);
 
-    let s: number, sl: Slot;
+    let s: number, itm: Item;
     for (let m = 0; m < monCount; m++) {
       while (true) {
         s = Const.lcg.randNbrI(8);
-        if (!r.slots[s]) {
-          r.slots[s] = this.createMonster(s);
+        if (!r.items[s]) {
+          r.items[s] = this.createMonster(s);
           break;
         }
       }
     }
 
-    sl = null;
+    itm = null;
     while (true) {
       s = Const.lcg.randNbrI(8);
-      if (!r.slots[s]) {
+      if (!r.items[s]) {
         switch (pickup) {
-          case 2: sl = new Slot(Const.FOOD, new Food(s)); break;
-          case 4: sl = new Slot(Const.POTION, new Potion(s)); break;
-          case 6: sl = new Slot(Const.COINS, new Coin(s)); break;
-          case 8: sl = new Slot(Const.CHEST, new Chest(s)); break;
+          case 2: itm = new Food(s); break;
+          case 4: itm = new Potion(s); break;
+          case 6: itm = new Coin(s); break;
+          case 8: itm = new Chest(s); break;
         }
         break;
       }
     }
-    if (sl) {
-      r.slots[s] = sl;
-      sl.position = Const.SLOTS_POS[s];
-      sl.index = s;
-    }
+    if (itm) r.items[s] = itm;
 
-    sl = null;
+    itm = null;
     while (true) {
       s = Const.lcg.randNbrI(8);
-      if (!r.slots[s]) {
+      if (!r.items[s]) {
         switch (equip) {
-          case 2: sl = new Slot(Const.KNIFE, new Knife(s)); break;
-          case 7: sl = new Slot(Const.CHAINMAIL, new Chainmail(s)); break;
-          case 12: sl = new Slot(Const.SWORD, new Sword(s)); break;
-          case 17: sl = new Slot(Const.BREASTPLATE, new Breastplate(s)); break;
+          case 2: itm = new Knife(s); break;
+          case 7: itm = new Chainmail(s); break;
+          case 12: itm = new Sword(s); break;
+          case 17: itm = new Leather(s); break;
         }
         break;
       }
     }
-    if (sl) {
-      r.slots[s] = sl;
-      sl.position = Const.SLOTS_POS[s];
-      sl.index = s;
-    }
+    if (itm) r.items[s] = itm;
   }
 
-  createMonster(s: number): Slot {
-    let sl: Slot;
+  createMonster(s: number): Monster {
+    let mon: Monster;
     if (Const.lcg.randPercent() < 5) {
-      sl = new Slot(Const.DRAGON, new Dragon(s));
+      mon = new Dragon(s);
     } else if (Const.lcg.randPercent() < 10) {
-      sl = new Slot(Const.OGER, new Oger(s));
+      mon = new Oger(s);
     } else if (Const.lcg.randPercent() < 15) {
-      sl = new Slot(Const.YETI, new Yeti(s));
+      mon = new Yeti(s);
     } else if (Const.lcg.randPercent() < 20) {
-      sl = new Slot(Const.ZOMBIE, new Zombie(s));
+      mon = new Zombie(s);
     } else if (Const.lcg.randPercent() < 25) {
-      sl = new Slot(Const.TROLL, new Troll(s));
+      mon = new Troll(s);
     } else if (Const.lcg.randPercent() < 30) {
-      sl = new Slot(Const.KOBOLD, new Kobold(s));
+      mon = new Kobold(s);
     } else if (Const.lcg.randPercent() < 50) {
-      sl = new Slot(Const.SNAKE, new Snake(s));
+      mon = new Snake(s);
     } else {
-      sl = new Slot(Const.BAT, new Bat(s));
+      mon = new Bat(s);
     }
-    sl.position = Const.SLOTS_POS[s];
-    sl.index = s;
-    return sl;
+    return mon;
   }
 
   clearRooms() {

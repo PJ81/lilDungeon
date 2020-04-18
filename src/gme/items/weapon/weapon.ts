@@ -8,7 +8,7 @@ export default class Weapon extends Equipment {
   attack: number;
   hitChance: number;
 
-  constructor(name: string, slot: number) {
-    super(name, slot);
+  constructor(name: string, type: number, idx: number) {
+    super(name, type, idx);
   }
 }

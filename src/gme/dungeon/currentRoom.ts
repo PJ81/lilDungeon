@@ -1,8 +1,8 @@
 import * as Const from "../../eng/const.js";
 import Point from "../../eng/point.js";
 import Resources from "../../eng/resources.js";
+import Item from "../items/item.js";
 import Room from "./room.js";
-import Slot from "./slot.js";
 
 export default class CurrentRoom {
   room: Room;
@@ -11,9 +11,9 @@ export default class CurrentRoom {
   img: HTMLImageElement;
 
   updateRoom: (i: number) => void;
-  clearSlot: (i: number) => any;
-  getSlot: (i: number) => Slot;
-  setSlot: (i: number, slot: Slot) => Slot;
+  clearItem: (i: number) => void;
+  getItem: (i: number) => Item;
+  setItem: (i: number, item: Item) => void;
   getRoom: () => Room;
 
   constructor(ctx: CanvasRenderingContext2D) {
@@ -21,9 +21,9 @@ export default class CurrentRoom {
     this.res = new Resources();
 
     this.updateRoom = (i: number) => this.setRoom(this.room.neighbours[i]);
-    this.clearSlot = (i: number) => this.room.slots[i] = null;
-    this.setSlot = (i: number, slot: Slot) => this.room.slots[i] = slot;
-    this.getSlot = (i: number): Slot => { return this.room.slots[i]; }
+    this.clearItem = (i: number) => this.room.items[i] = null;
+    this.setItem = (i: number, item: Item) => this.room.items[i] = item;
+    this.getItem = (i: number): Item => { return this.room.items[i]; }
     this.getRoom = (): Room => { return this.room; }
 
     this.res.loadImages(["tiles.png"], () => {
@@ -71,9 +71,12 @@ export default class CurrentRoom {
 
     if (!dark) {
       for (let s = 0; s < 8; s++) {
-        if (r.slots[s]) {
-          const sl = r.slots[s]
-          this.ctx.drawImage(this.img, (sl.itemType) * ts, 0, ts, ts, offset.x + sl.position.x * ts, offset.y + sl.position.y * ts, ts, ts);
+        const itm = r.items[s];
+        if (itm) {
+          const x = Const.SLOTS_POS[itm.slotIdx].x,
+            y = Const.SLOTS_POS[itm.slotIdx].y;
+          this.ctx.drawImage(this.img, itm.type * ts, 0, ts, ts, offset.x + x * ts, offset.y + y * ts, ts, ts);
+
         }
       }
     }

@@ -10,7 +10,12 @@ export const
   SCALE = 1,
   PRESSED = 1,
   RELEASED = 0,
+  ARMOR = 1,
+  WEAPON = 2,
+  NO_TYPE = -1,
+  NO_POS = -1,
 
+  // keys
   NW = 103,
   N = 104,
   NE = 105,
@@ -20,6 +25,7 @@ export const
   S = 98,
   SE = 99,
 
+  // indexes
   VN = 0,
   VE = 1,
   VS = 2,
@@ -28,6 +34,7 @@ export const
   VNE = 5,
   VSW = 6,
   VSE = 7,
+
 
   DIRECTION = [
     new Point(0, -1),
@@ -51,25 +58,22 @@ export const
     new Point(3, 3)
   ],
 
+  // entities
   PLAYER = 18,
-
   FLOOR = 0,
   WALL = 2,
   DOOR = 4,
   STAIRS = 6,
   TRAP = 9,
-
   FOOD = 11,
-  COINS = 10,
+  COIN = 10,
   POTION = 12,
   CHEST = 17,
   CARCASS = 8,
-
-  KNIFE = 13,
+  DAGGER = 13,
   SWORD = 15,
-  BREASTPLATE = 16,
+  LEATHER = 16,
   CHAINMAIL = 14,
-
   BAT = 23,
   SNAKE = 21,
   KOBOLD = 24,
@@ -79,9 +83,8 @@ export const
   OGER = 22,
   DRAGON = 19,
 
+  // states
   PLAY = 1,
   MENU = 2,
-  GMOR = 3,
+  GMOR = 3;
 
-  ARMOR = 1,
-  WEAPON = 2;

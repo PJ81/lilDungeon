@@ -1,9 +1,9 @@
-import { lcg } from "../../../eng/const.js";
+import { lcg, POTION } from "../../../eng/const.js";
 import Edible from "./edible.js";
 
 export default class Potion extends Edible {
-  constructor(slot: number) {
-    super("Potion", slot);
+  constructor(idx: number) {
+    super("Potion", POTION, idx);
     this.health = lcg.rollDice(2, 3);
   }
 }

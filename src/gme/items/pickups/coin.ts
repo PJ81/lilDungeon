@@ -1,11 +1,11 @@
-import { lcg } from "../../../eng/const.js";
+import { COIN, lcg } from "../../../eng/const.js";
 import Item from "../item.js";
 
 export default class Coin extends Item {
   count: number;
 
-  constructor(slot: number) {
-    super("Coin", slot);
+  constructor(idx: number) {
+    super("Coin", COIN, idx);
     this.count = lcg.rollDice(3, 5);
   }
 }

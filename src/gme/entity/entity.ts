@@ -21,10 +21,10 @@ export default class Entity extends Item {
   hitChanceO: number;
   defChanceO: number;
 
-  constructor(name: string) {
-    super(name, -1);
-    this.weapon = new BareHands(-1);
-    this.armor = new CottonShirt(-1);
+  constructor(name: string, type: number, idx: number) {
+    super(name, type, idx);
+    this.weapon = new BareHands();
+    this.armor = new CottonShirt();
     this.xperience = 0;
     this.health = 0;
     this.hitChance = 0;

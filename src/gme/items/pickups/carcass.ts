@@ -1,10 +1,10 @@
-import { TRAP } from "../../../eng/const.js";
+import { CARCASS, TRAP } from "../../../eng/const.js";
 import Container from "./container.js";
 import Trap from "./trap.js";
 
 export default class Carcass extends Container {
   constructor(slot: number) {
-    super("Carcass", slot);
+    super("Carcass", CARCASS, slot);
   }
 
   createNewItem() {

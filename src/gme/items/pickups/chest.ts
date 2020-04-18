@@ -1,14 +1,14 @@
-import { COINS } from "../../../eng/const.js";
+import { CHEST, COIN } from "../../../eng/const.js";
 import Coin from "./coin.js";
 import Container from "./container.js";
 
 export default class Chest extends Container {
-  constructor(slot: number) {
-    super("Chest", slot);
+  constructor(idx: number) {
+    super("Chest", CHEST, idx);
   }
 
   createNewItem() {
     this.item = new Coin(this.slotIdx);
-    this.itemType = COINS;
+    this.itemType = COIN;
   }
 }

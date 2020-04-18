@@ -1,40 +1,38 @@
-import { BREASTPLATE, CHAINMAIL, COINS, FOOD, KNIFE, lcg, POTION, SWORD } from "../../../eng/const.js";
-import Slot from "../../dungeon/slot.js";
+import { lcg } from "../../../eng/const.js";
 import Chainmail from "../../items/armor/chainmail.js";
-import Breastplate from "../../items/armor/leather.js";
+import Leather from "../../items/armor/leather.js";
+import Item from "../../items/item.js";
 import Coin from "../../items/pickups/coin.js";
 import Food from "../../items/pickups/food.js";
 import Potion from "../../items/pickups/potion.js";
-import Knife from "../../items/weapon/dagger.js";
+import Dagger from "../../items/weapon/dagger.js";
 import Sword from "../../items/weapon/sword.js";
 import Entity from "../entity.js";
 
 export default class Monster extends Entity {
-  slotIdx: number;
-  slot: Slot;
+  item: Item;
 
-  constructor(name: string, slot: number) {
-    super(name);
-    this.slotIdx = slot;
+  constructor(name: string, type: number, idx: number) {
+    super(name, type, idx);
     this.createLoot();
   }
 
   createLoot() {
-    let z;
+    let z: number;
     if (lcg.rollDice(1, 100) < 15) {
       z = lcg.rollDice(1, 4);
       switch (z) {
-        case 1: this.slot = new Slot(KNIFE, new Knife(-1)); break;
-        case 2: this.slot = new Slot(CHAINMAIL, new Chainmail(-1)); break;
-        case 3: this.slot = new Slot(SWORD, new Sword(-1)); break;
-        case 4: this.slot = new Slot(BREASTPLATE, new Breastplate(-1)); break;
+        case 1: this.item = new Dagger(this.slotIdx); break;
+        case 2: this.item = new Chainmail(this.slotIdx); break;
+        case 3: this.item = new Sword(this.slotIdx); break;
+        case 4: this.item = new Leather(this.slotIdx); break;
       }
     } else {
       z = lcg.rollDice(1, 3)
       switch (z) {
-        case 1: this.slot = new Slot(FOOD, new Food(-1)); break;
-        case 2: this.slot = new Slot(POTION, new Potion(-1)); break;
-        case 3: this.slot = new Slot(COINS, new Coin(-1)); break;
+        case 1: this.item = new Food(this.slotIdx); break;
+        case 2: this.item = new Potion(this.slotIdx); break;
+        case 3: this.item = new Coin(this.slotIdx); break;
       }
     }
   }

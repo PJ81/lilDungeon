@@ -2,6 +2,7 @@ import startEvent from "../../tools/startMsg.js";
 import Equipment from "../equipment.js";
 
 export default class Armor extends Equipment {
+  defenseMax: number;
   defense: number;
   defChance: number;
 
@@ -13,6 +14,11 @@ export default class Armor extends Equipment {
     this.health -= d;
     if (this.health < 1) {
       startEvent("Message", `Your ${this.name} is detroyed!`);
+      return;
     }
+
+    const ph = 100 * this.health / this.healthMax;
+    this.defense = ~~(ph * this.defenseMax / 100);
+    if (this.defense < 1) this.defense = 1;
   }
 }

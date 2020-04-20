@@ -87,6 +87,18 @@ export const
   OGER = 22,
   DRAGON = 19,
 
+  // sacreed items
+  SACRED_ITEMS = 6,
+  HEROS_SANDALS = 3,
+  LETTERS_OF_GRACE = 5,
+  KISMET_GEM = 7,
+  SHIELD_OF_MENDING = 9,
+  THE_BOOK_OF_DEATH = 11,
+  ICHORS_TIARA = 13,
+
+  // sanctuary
+  SANCTUARY = 15,
+
   // states
   PLAY = 1,
   MENU = 2,

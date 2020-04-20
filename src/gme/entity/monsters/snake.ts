@@ -6,10 +6,10 @@ import Monster from "./monster.js";
 export default class Snake extends Monster {
   constructor(idx: number) {
     super("Snake", SNAKE, idx);
-    this.setOriginals(3, 1, 1, 5, 5);
+    this.setMax(3, 1, 1, 5, 5);
     this.equip(new BareHands());
     this.equip(new CottonShirt());
 
-    this.xperience = 1;
+    this.experience = 1;
   }
 }

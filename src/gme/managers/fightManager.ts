@@ -56,15 +56,7 @@ export default class FightManager {
       if (monster.health > 0) {
         this.fightBack(player, monster);
       } else {
-        player.xperience += monster.xperience;
-        player.pointsToNextLevel -= monster.xperience;
-        if (player.pointsToNextLevel <= 0) {
-          player.level++;
-          player.pointsToNextLevel += player.level * 5;
-          player.healthO += 2;
-          player.health++;
-          startEvent("Message", `Level up.`);
-        }
+        player.updateXP(monster.experience);
         return true;
       }
     }

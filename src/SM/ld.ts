@@ -34,7 +34,7 @@ export default class LilDung extends State {
     this.statsDiv = <HTMLDivElement>document.getElementById("stats");
     this.draw = () => this.curRoom.draw(this.player.demTime);
     this.takeAStep = (dir: number) => this.curRoom.updateRoom(dir);
-    this.newLevel = () => this.curRoom.setRoom(this.dungeon.create(10, 10));
+    this.newLevel = () => this.curRoom.setRoom(this.dungeon.create(10, 10, this.player.depth));
 
     this.fightManager = new FightManager();
     this.hitManager = new HitManager();
@@ -133,8 +133,8 @@ export default class LilDung extends State {
   eatOrDrink(item: Edible) {
     this.curRoom.clearItem(item.slotIdx);
     this.player.health += item.health;
-    if (this.player.health > this.player.healthO) {
-      this.player.health = this.player.healthO;
+    if (this.player.health > this.player.healthMax) {
+      this.player.health = this.player.healthMax;
     }
     startEvent("Message", `You receive some energie from this ${item.name}.`);
   }
@@ -164,6 +164,10 @@ export default class LilDung extends State {
   }
 
   showStats() {
-    this.statsDiv.innerText = `${this.player.moves}`;
+    const s = `Level: ${this.player.level}  Health: ${this.player.health}(${this.player.healthMax})  ` +
+      `Attack: ${this.player.attack + this.player.weapon.attack}(${this.player.attackMax + this.player.weapon.attack})  ` +
+      `Def: ${this.player.defense + this.player.armor.defense}(${this.player.defenseMax + this.player.armor.defense})  ` +
+      `Gold: ${this.player.gold}  Exp: ${this.player.experience}(${this.player.experience + this.player.pointsToNextLevel})`;
+    this.statsDiv.innerText = s;
   }
 }

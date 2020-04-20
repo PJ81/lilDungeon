@@ -15,29 +15,29 @@ export default class Entity extends Item {
   defense: number;
   hitChance: number;
   defChance: number;
-  xperience: number;
-  healthO: number;
-  attackO: number;
-  defenseO: number;
-  hitChanceO: number;
-  defChanceO: number;
+  experience: number;
+  healthMax: number;
+  attackMax: number;
+  defenseMax: number;
+  hitChanceMax: number;
+  defChanceMax: number;
 
   constructor(name: string, type: number, idx: number) {
     super(name, type, idx);
     this.weapon = new BareHands();
     this.armor = new CottonShirt();
-    this.xperience = 0;
+    this.experience = 0;
     this.health = 0;
     this.hitChance = 0;
     this.defChance = 0;
     this.attack = 0;
     this.defense = 0;
     this.demTime = 0;
-    this.healthO = 0;
-    this.attackO = 0;
-    this.defenseO = 0;
-    this.hitChanceO = 0;
-    this.defChanceO = 0;
+    this.healthMax = 0;
+    this.attackMax = 0;
+    this.defenseMax = 0;
+    //this.hitChanceMax = 0;
+    //this.defChanceMax = 0;
   }
 
   equip(eq: Equipment) {
@@ -62,12 +62,12 @@ export default class Entity extends Item {
     }
   }
 
-  setOriginals(t: number, a: number, d: number, h: number, c: number) {
-    this.health = this.healthO = t;
-    this.attackO = this.attack = a;
-    this.defenseO = this.defense = d;
-    this.hitChanceO = this.hitChance = h;
-    this.defChanceO = this.defChance = c;
+  setMax(t: number, a: number, d: number, h: number, c: number) {
+    this.health = this.healthMax = t;
+    this.attackMax = this.attack = a;
+    this.defenseMax = this.defense = d;
+    this.hitChance = h;
+    this.defChance = c;
   }
 
   update(dt: number) {

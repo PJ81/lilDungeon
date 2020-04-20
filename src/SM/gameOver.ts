@@ -5,16 +5,17 @@ import Item from "../gme/items/item.js";
 import State from "./state.js";
 
 export default class GameOver extends State {
-  item: Item;
+  killer: Item;
   player: Player;
 
   constructor() {
     super();
+    this.update = (dt: number) => { }
   }
 
-  start(keyboard: Keyboard, player: Player, item: Item) {
+  start(keyboard: Keyboard, player: Player, killer: Item) {
     this.player = player;
-    this.item = item;
+    this.killer = killer;
     keyboard.addKey(32, () => {
       window.dispatchEvent(new CustomEvent("StateChange", {
         detail: {
@@ -22,10 +23,6 @@ export default class GameOver extends State {
         }
       }));
     });
-  }
-
-  update(dt: number) {
-    //
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -53,12 +50,12 @@ export default class GameOver extends State {
 
     ctx.fillText(this.player.name, m, 220);
     ctx.fillText("killed by a", m, 239);
-    ctx.fillText(this.item.name, m, 258);
+    ctx.fillText(this.killer.name, m, 258);
 
-    ctx.fillText(`${this.player.name}, you were killed by a ${this.item.name} in the dungeon`, m, 350);
-    ctx.fillText(`level ${this.player.depth}, with ${this.player.xperience} points and ${this.player.gold} pieces of gold.`, m, 367);
+    ctx.fillText(`${this.player.name}, you were killed by a ${this.killer.name} in the dungeon`, m, 350);
+    ctx.fillText(`level ${this.player.depth}, with ${this.player.experience} points and ${this.player.gold} pieces of gold.`, m, 367);
     ctx.fillText(`After ${this.player.moves} moves, you were level ${this.player.level},`, m, 384);
-    ctx.fillText(`with a maximum of ${this.player.attack} hit points.`, m, 401);
+    ctx.fillText(`with a maximum of ${this.player.attack + this.player.weapon.attack} hit points.`, m, 401);
 
     ctx.font = "10px Roboto Mono";
     ctx.fillText("PRESS [SPACE] TO PLAY", m, HEIGHT * .95);

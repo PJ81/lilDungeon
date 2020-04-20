@@ -4,8 +4,8 @@ import Weapon from "./weapon.js";
 export default class Sword extends Weapon {
   constructor(idx: number) {
     super("Sword", SWORD, idx);
-    this.attack = 2;
-    this.hitChance = 20;
-    this.health = 1;
+    this.attack = this.attackMax = 10;
+    this.hitChance = 40;
+    this.healthMax = this.health = 12;
   }
 }

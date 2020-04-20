@@ -1,8 +1,9 @@
-import { GMOR, NO_POS, PLAYER } from "../../eng/const.js";
+import { GMOR, lcg, NO_POS, PLAYER, SACRED_ITEMS } from "../../eng/const.js";
 import CottonShirt from "../items/armor/cottonShirt.js";
 import Inventory from "../items/inventory.js";
 import Item from "../items/item.js";
 import BareHands from "../items/weapon/bareHands.js";
+import startEvent from "../tools/startMsg.js";
 import Entity from "./entity.js";
 
 export default class Player extends Entity {
@@ -11,6 +12,7 @@ export default class Player extends Entity {
   gold: number;
   moves: number;
   depth: number;
+  sacredItems: Item[];
   pointsToNextLevel: number;
 
   constructor(playername: string) {
@@ -20,9 +22,10 @@ export default class Player extends Entity {
   }
 
   reset(playername: string) {
-    this.setOriginals(15, 2, 2, 7, 7);
+    this.setMax(15, 2, 2, 7, 7);
     this.equip(new CottonShirt());
     this.equip(new BareHands());
+    this.sacredItems = new Array(SACRED_ITEMS)
     this.level = 1;
     this.pointsToNextLevel = 5;
     this.gold = 0;
@@ -30,6 +33,24 @@ export default class Player extends Entity {
     this.depth = 1;
     this.name = playername;
     this.inventory.clear();
+  }
+
+  updateXP(xp: number) {
+    this.experience += xp;
+    this.pointsToNextLevel -= xp;
+    if (this.pointsToNextLevel <= 0) {
+      this.level++;
+      this.pointsToNextLevel += this.level * 5;
+      this.healthMax += 2;
+      this.attackMax += 2;
+      this.defenseMax += 2;
+      this.hitChance++;
+      this.defChance++;
+      this.health += lcg.rollDice(2, 3);
+      if (this.health > this.healthMax) this.health = this.healthMax;
+
+      startEvent("Message", `Level up.`);
+    }
   }
 
   takeDamage(d: number, item: Item) {

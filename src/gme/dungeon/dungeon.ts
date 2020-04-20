@@ -23,11 +23,13 @@ import Room from "./room.js";
 export default class Dungeon {
   wid: number;
   hei: number;
+  lvl: number;
   rooms: Room[][];
 
   constructor() {
     this.wid = 0;
     this.hei = 0;
+    this.lvl = 0;
     this.rooms = [];
   }
 
@@ -35,12 +37,15 @@ export default class Dungeon {
     return this.rooms[p.x][p.y];
   }
 
-  create(wid: number, hei: number): Room {
+  create(wid: number, hei: number, lvl: number): Room {
     this.wid = wid;
     this.hei = hei;
+    this.lvl = lvl;
+
     if (this.rooms.length > 0) {
       this.clearRooms();
     }
+
     for (let x = 0; x < this.wid; x++) {
       this.rooms.push([]);
       for (let y = 0; y < this.hei; y++) {
@@ -75,6 +80,13 @@ export default class Dungeon {
       }
     }
     this.rooms[px][py].visited = true;
+
+    if (Const.SANCTUARY === this.lvl) {
+      //
+    } else if ((this.lvl & 1) === 1 && this.lvl > 1) {
+      // place the item
+    }
+
     return this.rooms[px][py];
   }
 

@@ -29,7 +29,7 @@ export default class Game {
     this.ctx.scale(Const.SCALE, Const.SCALE);
     this.ctx.imageSmoothingEnabled = false;
 
-    document.body.appendChild(this.canvas);
+    document.getElementById("gameCanvas").appendChild(this.canvas);
 
     this.lastTime = 0;
     this.accumulator = 0;

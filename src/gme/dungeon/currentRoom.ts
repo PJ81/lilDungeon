@@ -1,6 +1,7 @@
 import * as Const from "../../eng/const.js";
 import Point from "../../eng/point.js";
 import Resources from "../../eng/resources.js";
+import Monster from "../entity/monsters/monster.js";
 import Item from "../items/item.js";
 import Room from "./room.js";
 
@@ -32,17 +33,26 @@ export default class CurrentRoom {
     });
   }
 
+  update(dt: number) {
+    this.room.items.forEach(itm => {
+      if (itm instanceof Monster) {
+        itm.update(dt);
+      }
+    });
+  }
+
   setRoom(r: Room) {
     if (!r) return;
     this.room = r;
     this.room.visited = true;
   }
 
-  draw() {
+  draw(t: number) {
     const ts = Const.TILE_S;
     const offset = new Point((Const.WIDTH >> 1) - ((5 * ts) >> 1), (Const.WIDTH >> 1) - ((5 * ts) >> 1));
     this.drawRoom(this.room, offset, false);
-    this.ctx.drawImage(this.img, Const.PLAYER * ts, 0, ts, ts, offset.x + 2 * ts, offset.y + 2 * ts, ts, ts);
+    const pl = t > 0 ? Const.PLAYER + Const.MON_COUNT + 1 : Const.PLAYER;
+    this.ctx.drawImage(this.img, pl * ts, 0, ts, ts, offset.x + 2 * ts, offset.y + 2 * ts, ts, ts);
     this.clearRoom(this.room);
   }
 
@@ -74,9 +84,9 @@ export default class CurrentRoom {
         const itm = r.items[s];
         if (itm) {
           const x = Const.SLOTS_POS[itm.slotIdx].x,
-            y = Const.SLOTS_POS[itm.slotIdx].y;
-          this.ctx.drawImage(this.img, itm.type * ts, 0, ts, ts, offset.x + x * ts, offset.y + y * ts, ts, ts);
-
+            y = Const.SLOTS_POS[itm.slotIdx].y,
+            ty = itm instanceof Monster ? itm.demTime > 0 ? itm.type + Const.MON_COUNT + 1 : itm.type : itm.type;
+          this.ctx.drawImage(this.img, ty * ts, 0, ts, ts, offset.x + x * ts, offset.y + y * ts, ts, ts);
         }
       }
     }

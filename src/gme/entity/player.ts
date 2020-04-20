@@ -1,6 +1,7 @@
-import { NO_POS, PLAYER } from "../../eng/const.js";
+import { GMOR, NO_POS, PLAYER } from "../../eng/const.js";
 import CottonShirt from "../items/armor/cottonShirt.js";
 import Inventory from "../items/inventory.js";
+import Item from "../items/item.js";
 import BareHands from "../items/weapon/bareHands.js";
 import Entity from "./entity.js";
 
@@ -29,5 +30,18 @@ export default class Player extends Entity {
     this.depth = 1;
     this.name = playername;
     this.inventory.clear();
+  }
+
+  takeDamage(d: number, item: Item) {
+    super.takeDamage(d, item);
+    if (this.health <= 0) {
+      window.dispatchEvent(new CustomEvent("StateChange", {
+        detail: {
+          state: GMOR,
+          player: this,
+          killer: item
+        }
+      }));
+    }
   }
 }

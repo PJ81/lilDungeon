@@ -10,7 +10,6 @@ export default class BareHands extends Weapon {
   }
 
   getDamage(d: number) {
-    this.health -= d;
-    if (this.health < 1) this.health = 1;
+    //
   }
 }

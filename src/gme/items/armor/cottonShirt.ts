@@ -10,7 +10,6 @@ export default class CottonShirt extends Armor {
   }
 
   getDamage(d: number) {
-    this.health -= d;
-    if (this.health < 1) this.health = 1;
+    //
   }
 }

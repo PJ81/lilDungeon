@@ -74,6 +74,10 @@ export const
   SWORD = 15,
   LEATHER = 16,
   CHAINMAIL = 14,
+
+  // monsters
+  MON_COUNT = 8,
+
   BAT = 23,
   SNAKE = 21,
   KOBOLD = 24,

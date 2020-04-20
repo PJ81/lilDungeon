@@ -8,9 +8,4 @@ export default class Chainmail extends Armor {
     this.health = 1;
     this.defChance = 15;
   }
-
-  getDamage(d: number) {
-    this.health -= d;
-    if (this.health < 1) this.health = 1;
-  }
 }

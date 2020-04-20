@@ -78,33 +78,33 @@ export default class Dungeon {
     return this.rooms[px][py];
   }
 
-  addRoom(r: Room, x: number, y: number, da: number, db: number, tr: Room[]) {
+  addRoom(r: Room, x: number, y: number, da: number, db: number): Room {
     const s = new Room();
     s.pos.set(x, y);
     r.neighbours[da] = s;
     s.neighbours[db] = r;
     this.rooms[x][y] = s;
-    tr.push(s);
     this.seedSlots(s);
+    return s;
   }
 
   addDoors(r: Room, tr: Room[]) {
     let d = 0, count = 0, s: Room;
     while (d < 1 && count < 1250) {
       if (Const.lcg.randPercent() < 25 && !r.neighbours[Const.VN] && r.pos.y - 1 >= 0 && !this.rooms[r.pos.x][r.pos.y - 1]) {
-        this.addRoom(r, r.pos.x, r.pos.y - 1, Const.VN, Const.VS, tr);
+        tr.push(this.addRoom(r, r.pos.x, r.pos.y - 1, Const.VN, Const.VS));
         d++;
       }
       if (Const.lcg.randPercent() < 25 && !r.neighbours[Const.VE] && r.pos.x + 1 < this.wid && !this.rooms[r.pos.x + 1][r.pos.y]) {
-        this.addRoom(r, r.pos.x + 1, r.pos.y, Const.VE, Const.VW, tr);
+        tr.push(this.addRoom(r, r.pos.x + 1, r.pos.y, Const.VE, Const.VW));
         d++;
       }
       if (Const.lcg.randPercent() < 25 && !r.neighbours[Const.VS] && r.pos.y + 1 < this.hei && !this.rooms[r.pos.x][r.pos.y + 1]) {
-        this.addRoom(r, r.pos.x, r.pos.y + 1, Const.VS, Const.VN, tr);
+        tr.push(this.addRoom(r, r.pos.x, r.pos.y + 1, Const.VS, Const.VN));
         d++;
       }
       if (Const.lcg.randPercent() < 25 && !r.neighbours[Const.VW] && r.pos.x - 1 >= 0 && !this.rooms[r.pos.x - 1][r.pos.y]) {
-        this.addRoom(r, r.pos.x - 1, r.pos.y, Const.VW, Const.VE, tr);
+        tr.push(this.addRoom(r, r.pos.x - 1, r.pos.y, Const.VW, Const.VE));
         d++;
       }
       count++;
@@ -160,23 +160,14 @@ export default class Dungeon {
 
   createMonster(s: number): Monster {
     let mon: Monster;
-    if (Const.lcg.randPercent() < 5) {
-      mon = new Dragon(s);
-    } else if (Const.lcg.randPercent() < 10) {
-      mon = new Oger(s);
-    } else if (Const.lcg.randPercent() < 15) {
-      mon = new Yeti(s);
-    } else if (Const.lcg.randPercent() < 20) {
-      mon = new Zombie(s);
-    } else if (Const.lcg.randPercent() < 25) {
-      mon = new Troll(s);
-    } else if (Const.lcg.randPercent() < 30) {
-      mon = new Kobold(s);
-    } else if (Const.lcg.randPercent() < 50) {
-      mon = new Snake(s);
-    } else {
-      mon = new Bat(s);
-    }
+    if (Const.lcg.randPercent() < 5) mon = new Dragon(s);
+    else if (Const.lcg.randPercent() < 10) mon = new Oger(s);
+    else if (Const.lcg.randPercent() < 15) mon = new Yeti(s);
+    else if (Const.lcg.randPercent() < 20) mon = new Zombie(s);
+    else if (Const.lcg.randPercent() < 25) mon = new Troll(s);
+    else if (Const.lcg.randPercent() < 30) mon = new Kobold(s);
+    else if (Const.lcg.randPercent() < 50) mon = new Snake(s);
+    else mon = new Bat(s);
     return mon;
   }
 

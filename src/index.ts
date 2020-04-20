@@ -32,7 +32,7 @@ class MyGame extends Game {
           break;
         case GMOR:
           this.curState = this.over;
-          this.curState.start(this.keyboard, e.detail.player, e.detail.monster);
+          this.curState.start(this.keyboard, e.detail.player, e.detail.killer);
           break;
       }
     });

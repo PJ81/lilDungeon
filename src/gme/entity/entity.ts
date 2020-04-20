@@ -9,6 +9,7 @@ import Weapon from "../items/weapon/weapon.js";
 export default class Entity extends Item {
   weapon: Weapon;
   armor: Armor;
+  demTime: number;
   health: number;
   attack: number;
   defense: number;
@@ -31,6 +32,7 @@ export default class Entity extends Item {
     this.defChance = 0;
     this.attack = 0;
     this.defense = 0;
+    this.demTime = 0;
     this.healthO = 0;
     this.attackO = 0;
     this.defenseO = 0;
@@ -44,27 +46,19 @@ export default class Entity extends Item {
         this.dequip(WEAPON);
       }
       this.weapon = eq;
-      this.attack += this.weapon.attack;
-      this.hitChance += this.weapon.hitChance;
     } else if (eq instanceof Armor) {
       if (this.armor !== null) {
         this.dequip(ARMOR);
       }
       this.armor = eq;
-      this.defense = this.armor.defense;
-      this.defChance = this.armor.defChance;
     }
   }
 
   dequip(r: number) {
     if (r === WEAPON) {
       this.weapon = null;
-      this.attack += this.attackO;
-      this.hitChance += this.hitChanceO;
     } else {
       this.armor = null;
-      this.defense = this.defenseO;
-      this.defChance = this.defChanceO;
     }
   }
 
@@ -74,5 +68,25 @@ export default class Entity extends Item {
     this.defenseO = this.defense = d;
     this.hitChanceO = this.hitChance = h;
     this.defChanceO = this.defChance = c;
+  }
+
+  update(dt: number) {
+    if (this.demTime > 0) {
+      this.demTime = Math.max(this.demTime - dt, 0);
+    }
+
+    if (this.armor.health < 0) {
+      this.equip(new CottonShirt());
+    }
+
+    if (this.weapon.health < 0) {
+      this.equip(new BareHands());
+    }
+  }
+
+  takeDamage(d: number, e: Item) {
+    if (d < 1) return;
+    this.health -= d;
+    this.demTime = .2;
   }
 }

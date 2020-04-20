@@ -1,20 +1,20 @@
 import { HEIGHT, MENU, WIDTH } from "../eng/const.js";
 import Keyboard from "../eng/keyboard.js";
-import Monster from "../gme/entity/monsters/monster.js";
 import Player from "../gme/entity/player.js";
+import Item from "../gme/items/item.js";
 import State from "./state.js";
 
 export default class GameOver extends State {
-  monster: Monster;
+  item: Item;
   player: Player;
 
   constructor() {
     super();
   }
 
-  start(keyboard: Keyboard, player: Player, monster: Monster) {
+  start(keyboard: Keyboard, player: Player, item: Item) {
     this.player = player;
-    this.monster = monster;
+    this.item = item;
     keyboard.addKey(32, () => {
       window.dispatchEvent(new CustomEvent("StateChange", {
         detail: {
@@ -53,9 +53,9 @@ export default class GameOver extends State {
 
     ctx.fillText(this.player.name, m, 220);
     ctx.fillText("killed by a", m, 239);
-    ctx.fillText(this.monster.name, m, 258);
+    ctx.fillText(this.item.name, m, 258);
 
-    ctx.fillText(`${this.player.name}, you were killed by a ${this.monster.name} in the dungeon`, m, 350);
+    ctx.fillText(`${this.player.name}, you were killed by a ${this.item.name} in the dungeon`, m, 350);
     ctx.fillText(`level ${this.player.depth}, with ${this.player.xperience} points and ${this.player.gold} pieces of gold.`, m, 367);
     ctx.fillText(`After ${this.player.moves} moves, you were level ${this.player.level},`, m, 384);
     ctx.fillText(`with a maximum of ${this.player.attack} hit points.`, m, 401);

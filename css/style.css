@@ -6,13 +6,61 @@
 
 body {
   background-color: #222;
-  text-align: center;
 }
 
 canvas {
   border: 1px solid #fff;
   background-color: #000;
-  margin: 50px auto;
+  margin: 70px auto 15px 70px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+}
+
+#msg {
+  position: absolute;
+  left: 600px;
+  top: 70px;
+  padding-right: 5px;
+  text-align: left;
+  font-size: 12px;
+  color: #fff;
+}
+
+#stats {
+  text-align: left;
+  font-size: 12px;
+  color: #fff;
+  margin-left: 70px;
+}
+
+#msg0 {
+  opacity: 1.0;
+}
+
+#msg1 {
+  opacity: 0.875;
+}
+
+#msg2 {
+  opacity: 0.75;
+}
+
+#msg3 {
+  opacity: 0.625;
+}
+
+#msg4 {
+  opacity: 0.5;
+}
+
+#msg5 {
+  opacity: 0.375;
+}
+
+#msg6 {
+  opacity: 0.25;
+}
+
+#msg7 {
+  opacity: 0.125;
 }

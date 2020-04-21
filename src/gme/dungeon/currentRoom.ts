@@ -34,6 +34,7 @@ export default class CurrentRoom {
 
   updateRoom(i: number, playerHasKey: boolean) {
     const r = this.room.neighbours[i];
+    if (!r) return;
     if (r.locked && playerHasKey) {
       startEvent("Message", `This door is locked, can't open it!`);
     } else {

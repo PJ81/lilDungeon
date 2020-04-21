@@ -1,4 +1,4 @@
-import { E, lcg, N, NE, NW, ORDINALS, PRESSED, S, SACRED, SANC, SE, SW, VE, VN, VNE, VNW, VS, VSE, VSW, VW, W } from "../../eng/const.js";
+import { E, lcg, N, NE, NW, ORDINALS, PRESSED, S, SACRED, SANC, SANCTUARY, SE, SW, VE, VN, VNE, VNW, VS, VSE, VSW, VW, W } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
 import CurrentRoom from "../dungeon/currentRoom.js";
 import Dungeon from "../dungeon/dungeon.js";
@@ -46,7 +46,6 @@ export default class LilDung extends State {
   }
 
   handleAction(action: any) {
-    this.goDownStairs();
     this.player.moves++;
     switch (action.arg1) {
       case "GoDown": this.goDownStairs(); break;
@@ -107,7 +106,7 @@ export default class LilDung extends State {
     this.player.depth++;
     this.player.hasKey = false;
 
-    if (2 === this.player.depth) {
+    if (SANCTUARY === this.player.depth) {
       window.dispatchEvent(new CustomEvent("StateChange", {
         detail: {
           state: SANC,

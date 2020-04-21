@@ -1,7 +1,7 @@
-import { HEIGHT, MENU, WIDTH } from "../eng/const.js";
-import Keyboard from "../eng/keyboard.js";
-import Player from "../gme/entity/player.js";
-import Item from "../gme/items/item.js";
+import { HEIGHT, MENU, WIDTH } from "../../eng/const.js";
+import Keyboard from "../../eng/keyboard.js";
+import Player from "../entity/player.js";
+import Item from "../items/item.js";
 import State from "./state.js";
 
 export default class GameOver extends State {

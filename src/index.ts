@@ -1,9 +1,9 @@
 import { GMOR, MENU, PLAY } from "./eng/const.js";
 import Game from "./eng/game.js";
-import GameOver from "./SM/gameOver.js";
-import LilDung from "./SM/ld.js";
-import Menu from "./SM/menu.js";
-import State from "./SM/state.js";
+import GameOver from "./gme/sm/gameOver.js";
+import LilDung from "./gme/sm/ld.js";
+import Menu from "./gme/sm/menu.js";
+import State from "./gme/sm/state.js";
 
 //https://nethackwiki.com/wiki/Rogue_(game)
 

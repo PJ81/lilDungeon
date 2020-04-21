@@ -2,18 +2,13 @@ import LCG from "../gme/tools/lcg.js";
 import Point from "./point.js";
 
 export const
+  //linear congruential generator
   lcg = new LCG(),
 
-  WIDTH = 480,
-  HEIGHT = 480,
-  TILE_S = 9,
-  SCALE = 1,
-  PRESSED = 1,
-  RELEASED = 0,
-  ARMOR = 1,
-  WEAPON = 2,
-  NO_TYPE = -1,
-  NO_POS = -1,
+  WIDTH = 480, HEIGHT = 480, SCALE = 1, TILE_S = 9,
+  PRESSED = 1, RELEASED = 0,
+  ARMOR = 1, WEAPON = 2,
+  NO_TYPE = -1, NO_POS = -1,
 
   // keys
   NW = 103,
@@ -35,31 +30,21 @@ export const
   VSW = 6,
   VSE = 7,
 
-
   DIRECTION = [
-    new Point(0, -1),
-    new Point(1, 0),
-    new Point(0, 1),
-    new Point(-1, 0),
-    new Point(-1, -1),
-    new Point(1, -1),
-    new Point(-1, 1),
-    new Point(1, 1)
+    new Point(0, -1), new Point(1, 0),
+    new Point(0, 1), new Point(-1, 0),
+    new Point(-1, -1), new Point(1, -1),
+    new Point(-1, 1), new Point(1, 1)
   ],
 
   SLOTS_POS = [
-    new Point(2, 1),
-    new Point(3, 2),
-    new Point(2, 3),
-    new Point(1, 2),
-    new Point(1, 1),
-    new Point(3, 1),
-    new Point(1, 3),
-    new Point(3, 3)
+    new Point(2, 1), new Point(3, 2),
+    new Point(2, 3), new Point(1, 2),
+    new Point(1, 1), new Point(3, 1),
+    new Point(1, 3), new Point(3, 3)
   ],
 
   // entities
-  PLAYER = 18,
   FLOOR = 0,
   WALL = 2,
   DOOR = 4,
@@ -75,28 +60,46 @@ export const
   LEATHER = 16,
   CHAINMAIL = 14,
 
-  // monsters
-  MON_COUNT = 8,
+  PLAYER = 18,
 
-  BAT = 23,
+  // monsters
+  MON_COUNT = 10,
+
+  DRAGON = 19,
+  ZOMBIE = 20,
   SNAKE = 21,
+  OGER = 22,
+  BAT = 23,
   KOBOLD = 24,
   TROLL = 25,
-  ZOMBIE = 20,
   YETI = 26,
-  OGER = 22,
-  DRAGON = 19,
+  SPIDER = 27,
+  VAMPIRE = 28,
 
   // sacreed items
   SACRED_ITEMS = 6,
-  HEROS_SANDALS = 3,
-  LETTERS_OF_GRACE = 5,
-  KISMET_GEM = 7,
-  SHIELD_OF_MENDING = 9,
-  THE_BOOK_OF_DEATH = 11,
-  ICHORS_TIARA = 13,
 
-  // sanctuary
+  THE_BOOK_OF_DEATH = 40,
+  KISMET_GEM = 41,
+  ICHORS_TIARA = 42,
+  HEROS_SANDALS = 43,
+  LETTERS_OF_GRACE = 44,
+  SHIELD_OF_MENDING = 45,
+
+  SACRED = [
+    ["The Book of Death", THE_BOOK_OF_DEATH], ["", NO_TYPE],
+    ["Kismet Gem", KISMET_GEM], ["", NO_TYPE],
+    ["Ichor's Tiara", ICHORS_TIARA], ["", NO_TYPE],
+    ["Hero's Sandals", HEROS_SANDALS], ["", NO_TYPE],
+    ["Letters of Grace", LETTERS_OF_GRACE], ["", NO_TYPE],
+    ["Shield of Mending", SHIELD_OF_MENDING]],
+
+  ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth"],
+
+  // sacred item room key
+  KEY = 46,
+
+  // sanctuary level
   SANCTUARY = 15,
 
   // states

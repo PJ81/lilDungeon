@@ -1,19 +1,20 @@
-import { E, lcg, N, NE, NW, PRESSED, S, SE, SW, VE, VN, VNE, VNW, VS, VSE, VSW, VW, W } from "../eng/const.js";
-import Keyboard from "../eng/keyboard.js";
-import CurrentRoom from "../gme/dungeon/currentRoom.js";
-import Dungeon from "../gme/dungeon/dungeon.js";
-import Monster from "../gme/entity/monsters/monster.js";
-import Player from "../gme/entity/player.js";
-import Armor from "../gme/items/armor/armor.js";
-import Carcass from "../gme/items/pickups/carcass.js";
-import Coin from "../gme/items/pickups/coin.js";
-import Container from "../gme/items/pickups/container.js";
-import Edible from "../gme/items/pickups/edible.js";
-import Trap from "../gme/items/pickups/trap.js";
-import Weapon from "../gme/items/weapon/weapon.js";
-import FightManager from "../gme/managers/fightManager.js";
-import HitManager from "../gme/managers/hitManager.js";
-import startEvent from "../gme/tools/startMsg.js";
+import { E, lcg, N, NE, NW, ORDINALS, PRESSED, S, SACRED, SE, SW, VE, VN, VNE, VNW, VS, VSE, VSW, VW, W } from "../../eng/const.js";
+import Keyboard from "../../eng/keyboard.js";
+import CurrentRoom from "../dungeon/currentRoom.js";
+import Dungeon from "../dungeon/dungeon.js";
+import Monster from "../entity/monsters/monster.js";
+import Player from "../entity/player.js";
+import Armor from "../items/armor/armor.js";
+import Item from "../items/item.js";
+import Carcass from "../items/pickups/carcass.js";
+import Coin from "../items/pickups/coin.js";
+import Container from "../items/pickups/container.js";
+import Edible from "../items/pickups/edible.js";
+import Trap from "../items/pickups/trap.js";
+import Weapon from "../items/weapon/weapon.js";
+import FightManager from "../managers/fightManager.js";
+import HitManager from "../managers/hitManager.js";
+import startEvent from "../tools/startMsg.js";
 import State from "./state.js";
 
 export default class LilDung extends State {
@@ -33,7 +34,7 @@ export default class LilDung extends State {
     window.addEventListener("Message", (e: CustomEvent) => this.outputMsg(e.detail));
     this.statsDiv = <HTMLDivElement>document.getElementById("stats");
     this.draw = () => this.curRoom.draw(this.player.demTime);
-    this.takeAStep = (dir: number) => this.curRoom.updateRoom(dir);
+    this.takeAStep = (dir: number) => this.curRoom.updateRoom(dir, this.player.hasKey);
     this.newLevel = () => this.curRoom.setRoom(this.dungeon.create(10, 10, this.player.depth));
 
     this.fightManager = new FightManager();
@@ -57,6 +58,8 @@ export default class LilDung extends State {
       case "EquipWeapon": this.equipWeapon(action.arg2); break;
       case "EquipArmor": this.equipArmor(action.arg2); break;
       case "Trap": this.trap(action.arg2); break;
+      case "Key": this.key(action.arg2); break;
+      case "Sacred": this.sacred(action.arg2); break;
     }
     this.showStats();
   }
@@ -101,6 +104,8 @@ export default class LilDung extends State {
 
   goDownStairs() {
     this.player.depth++;
+    this.player.hasKey = false;
+    startEvent("Message", `Welcome to level ${this.player.depth}, ${this.player.name}!`);
     this.newLevel();
   }
 
@@ -161,6 +166,18 @@ export default class LilDung extends State {
     this.player.takeDamage(trap.damage, trap);
     this.curRoom.clearItem(trap.slotIdx);
     startEvent("Message", `You step on a trap for a damage of ${trap.damage}`);
+  }
+
+  key(key: Item) {
+    this.player.hasKey = true;
+    this.curRoom.clearItem(key.slotIdx);
+    startEvent("Message", `You found the key for the ${SACRED[this.player.depth - 3][0]}`);
+  }
+
+  sacred(item: Item) {
+    this.player.sacredItems.push(item);
+    this.curRoom.clearItem(item.slotIdx);
+    startEvent("Message", `You found your ${ORDINALS[this.player.sacredItems.length - 1]} sacred item: ${item.name}`);
   }
 
   showStats() {

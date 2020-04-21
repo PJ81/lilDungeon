@@ -3,6 +3,7 @@ import Point from "../../eng/point.js";
 import Resources from "../../eng/resources.js";
 import Monster from "../entity/monsters/monster.js";
 import Item from "../items/item.js";
+import startEvent from "../tools/startMsg.js";
 import Room from "./room.js";
 
 export default class CurrentRoom {
@@ -11,7 +12,6 @@ export default class CurrentRoom {
   res: Resources;
   img: HTMLImageElement;
 
-  updateRoom: (i: number) => void;
   clearItem: (i: number) => void;
   getItem: (i: number) => Item;
   setItem: (i: number, item: Item) => void;
@@ -21,7 +21,6 @@ export default class CurrentRoom {
     this.ctx = ctx;
     this.res = new Resources();
 
-    this.updateRoom = (i: number) => this.setRoom(this.room.neighbours[i]);
     this.clearItem = (i: number) => this.room.items[i] = null;
     this.setItem = (i: number, item: Item) => this.room.items[i] = item;
     this.getItem = (i: number): Item => { return this.room.items[i]; }
@@ -31,6 +30,16 @@ export default class CurrentRoom {
       this.img = this.res.images[0];
       () => { };
     });
+  }
+
+  updateRoom(i: number, playerHasKey: boolean) {
+    const r = this.room.neighbours[i];
+    if (r.locked && playerHasKey) {
+      startEvent("Message", `This door is locked, can't open it!`);
+    } else {
+      r.lock(false);
+      this.setRoom(r);
+    }
   }
 
   update(dt: number) {

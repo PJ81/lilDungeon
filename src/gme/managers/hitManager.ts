@@ -31,7 +31,15 @@ export default class HitManager {
         case Const.CHAINMAIL: startEvent("Action", "EquipArmor", itm); break;
         case Const.STAIRS: startEvent("Action", "GoDown"); break;
         case Const.TRAP: startEvent("Action", "Trap", itm); break;
+        case Const.KEY: startEvent("Action", "Key", itm); break;
+        case Const.THE_BOOK_OF_DEATH:
+        case Const.KISMET_GEM:
+        case Const.ICHORS_TIARA:
+        case Const.HEROS_SANDALS:
+        case Const.LETTERS_OF_GRACE:
+        case Const.SHIELD_OF_MENDING: startEvent("Action", "Sacred", itm); break;
+
       }
     }
   }
-}
+} 

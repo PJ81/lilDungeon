@@ -1,23 +1,21 @@
-import { GMOR, lcg, NO_POS, PLAYER, SACRED_ITEMS } from "../../eng/const.js";
+import { GMOR, lcg, NO_POS, PLAYER } from "../../eng/const.js";
 import CottonShirt from "../items/armor/cottonShirt.js";
-import Inventory from "../items/inventory.js";
 import Item from "../items/item.js";
 import BareHands from "../items/weapon/bareHands.js";
 import startEvent from "../tools/startMsg.js";
 import Entity from "./entity.js";
 
 export default class Player extends Entity {
-  inventory: Inventory;
   level: number;
   gold: number;
   moves: number;
   depth: number;
+  hasKey: boolean;
   sacredItems: Item[];
   pointsToNextLevel: number;
 
   constructor(playername: string) {
     super(playername, PLAYER, NO_POS);
-    this.inventory = new Inventory(8);
     this.reset(playername);
   }
 
@@ -25,14 +23,14 @@ export default class Player extends Entity {
     this.setMax(15, 2, 2, 7, 7);
     this.equip(new CottonShirt());
     this.equip(new BareHands());
-    this.sacredItems = new Array(SACRED_ITEMS)
+    this.sacredItems = new Array();
     this.level = 1;
     this.pointsToNextLevel = 5;
     this.gold = 0;
     this.moves = 0;
     this.depth = 1;
     this.name = playername;
-    this.inventory.clear();
+    this.hasKey = false;
   }
 
   updateXP(xp: number) {

@@ -1,8 +1,9 @@
-import { GMOR, MENU, PLAY } from "./eng/const.js";
+import { GMOR, MENU, PLAY, SANC } from "./eng/const.js";
 import Game from "./eng/game.js";
 import GameOver from "./gme/sm/gameOver.js";
 import LilDung from "./gme/sm/ld.js";
 import Menu from "./gme/sm/menu.js";
+import Sanctuary from "./gme/sm/santuary.js";
 import State from "./gme/sm/state.js";
 
 //https://nethackwiki.com/wiki/Rogue_(game)
@@ -12,12 +13,14 @@ class MyGame extends Game {
   game: State;
   over: State;
   menu: State;
+  sanc: Sanctuary;
 
   constructor() {
     super();
     this.game = new LilDung(this.ctx);
     this.menu = new Menu();
     this.over = new GameOver();
+    this.sanc = new Sanctuary();
 
     window.addEventListener("StateChange", (e: CustomEvent) => {
       this.keyboard.clear();
@@ -33,6 +36,10 @@ class MyGame extends Game {
         case GMOR:
           this.curState = this.over;
           this.curState.start(this.keyboard, e.detail.player, e.detail.killer);
+          break;
+        case SANC:
+          this.curState = this.sanc;
+          this.curState.start(this.keyboard, e.detail.player);
           break;
       }
     });

@@ -29,10 +29,10 @@ export default class Menu extends State {
 
   draw(ctx: CanvasRenderingContext2D) {
     const m = WIDTH >> 1;
-    ctx.font = "30px Roboto Mono";
+    //ctx.font = "30px Roboto Mono";
     ctx.fillStyle = "#fff";
     ctx.textAlign = "center";
-    ctx.fillText("MENU", m, 60);
+    //ctx.fillText("####", m, 80);
 
     ctx.font = "18px Roboto Mono";
     let l = 150;

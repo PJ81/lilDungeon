@@ -1,4 +1,4 @@
-import { E, lcg, N, NE, NW, ORDINALS, PRESSED, S, SACRED, SE, SW, VE, VN, VNE, VNW, VS, VSE, VSW, VW, W } from "../../eng/const.js";
+import { E, lcg, N, NE, NW, ORDINALS, PRESSED, S, SACRED, SANC, SE, SW, VE, VN, VNE, VNW, VS, VSE, VSW, VW, W } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
 import CurrentRoom from "../dungeon/currentRoom.js";
 import Dungeon from "../dungeon/dungeon.js";
@@ -46,6 +46,7 @@ export default class LilDung extends State {
   }
 
   handleAction(action: any) {
+    this.goDownStairs();
     this.player.moves++;
     switch (action.arg1) {
       case "GoDown": this.goDownStairs(); break;
@@ -105,8 +106,18 @@ export default class LilDung extends State {
   goDownStairs() {
     this.player.depth++;
     this.player.hasKey = false;
-    startEvent("Message", `Welcome to level ${this.player.depth}, ${this.player.name}!`);
-    this.newLevel();
+
+    if (2 === this.player.depth) {
+      window.dispatchEvent(new CustomEvent("StateChange", {
+        detail: {
+          state: SANC,
+          player: this.player
+        }
+      }));
+    } else {
+      startEvent("Message", `Welcome to level ${this.player.depth}, ${this.player.name}!`);
+      this.newLevel();
+    }
   }
 
   fight(monster: Monster) {

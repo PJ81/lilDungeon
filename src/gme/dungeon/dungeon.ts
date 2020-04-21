@@ -43,11 +43,6 @@ export default class Dungeon {
     this.lvl = lvl;
     const startPos = new Point(this.wid >> 1, this.hei >> 1);
 
-    if (Const.SANCTUARY === this.lvl) {
-      this.createSanctuary();
-      return;
-    }
-
     while (true) {
       if (this.rooms.length > 0) this.clearRooms();
 

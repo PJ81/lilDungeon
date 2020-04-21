@@ -30,7 +30,7 @@ export default class GameOver extends State {
     ctx.font = "30px Roboto Mono";
     ctx.fillStyle = "#fff";
     ctx.textAlign = "center";
-    ctx.fillText("YOU DIED!", m, 60);
+    ctx.fillText("YOU DIED!", m, 80);
 
     ctx.font = "12px Roboto Mono";
     ctx.fillText("          ______         ", m, 132);

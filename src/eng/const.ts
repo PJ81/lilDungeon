@@ -105,5 +105,6 @@ export const
   // states
   PLAY = 1,
   MENU = 2,
-  GMOR = 3;
+  GMOR = 3,
+  SANC = 4;
 

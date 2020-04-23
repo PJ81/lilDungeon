@@ -2,80 +2,102 @@ import * as Const from "../../eng/const.js";
 import Entity from "../entity/entity.js";
 import Monster from "../entity/monsters/monster.js";
 import Player from "../entity/player.js";
-import startEvent from "../tools/startMsg.js";
+import CottonShirt from "../items/armor/cottonShirt.js";
+import BareHands from "../items/weapon/bareHands.js";
+import { startEvent } from "../tools/startMsg.js";
 
 export default class FightManager {
-  constructor() {
-    //
-  }
+  attack: (attacker: Entity, defender: Entity) => number;
 
-  attack(attacker: Entity, defender: Entity): number {
-    const hit = this.calcHits(attacker);
-    const def = this.calcDef(defender);
-    if (hit > def) {
-      return hit;
-    } else if (def > hit) {
-      return -def;
-    }
-    return 0;
+  constructor() {
+    this.attack = (attacker: Entity, defender: Entity): number => { return this.calcHits(attacker) - this.calcBlk(defender); }
   }
 
   calcHits(attacker: Entity): number {
-    let hit = 0, atk = attacker.hitChance + attacker.weapon.hitChance;
-    for (let z = 0; z < attacker.attack; z++) {
-      if (Const.lcg.rollDice(1, 100) > 100 - atk)
+    let hit = 0;
+    const atkChance = 100 - (attacker.atkChance + attacker.weapon.atkChance),
+      atk = attacker.attack + attacker.weapon.attack;
+    for (let z = 0; z < atk; z++) {
+      if (Const.lcg.rollDice(1, 100) >= atkChance)
         hit++;
     }
     return hit;
   }
 
-  calcDef(defender: Entity): number {
-    let def = 0, df = defender.defChance + defender.armor.defChance;
-    for (let z = 0; z < defender.defense; z++) {
-      if (Const.lcg.rollDice(1, 100) > 100 - df)
-        def++;
+  calcBlk(defender: Entity): number {
+    let blk = 0;
+    const defChance = 100 - (defender.defChance + defender.armor.defChance),
+      def = defender.defense + defender.armor.defense;
+    for (let z = 0; z < def; z++) {
+      if (Const.lcg.rollDice(1, 100) >= defChance)
+        blk++;
     }
-    return def;
+    return blk;
   }
 
   fight(player: Player, monster: Monster): boolean {
-    let atk = this.attack(player, monster);
-    if (atk < 0) {
-      startEvent("Message", `${monster.name} blocks your attack.`);
-      player.weapon.getDamage(atk / 1.5);
-      monster.armor.getDamage(atk >>> 1);
-      this.fightBack(player, monster);
-    } else if (atk === 0) {
-      startEvent("Message", `You miss ${monster.name}.`);
-      this.fightBack(player, monster);
-    } else {
-      startEvent("Message", `You hit ${monster.name} for ${atk} damage.`);
-      player.weapon.getDamage(atk >>> 1);
-      monster.armor.getDamage(atk / 1.5);
-      monster.takeDamage(atk, player);
-      if (monster.health > 0) {
-        this.fightBack(player, monster);
-      } else {
+    let demage = this.attack(player, monster);
+    if (demage > 0) {
+      startEvent("Message", `You hit ${monster.name} for ${demage} damage`);
+      if (!player.weapon.takeDamage(demage >>> 1)) {
+        startEvent("Message", `Your ${player.weapon.name} is detroyed`);
+        player.equip(new BareHands());
+      }
+      if (!monster.armor.takeDamage(demage / 1.5)) {
+        monster.equip(new CottonShirt());
+      }
+      if (!monster.takeDamage(demage, player)) {
         player.updateXP(monster.experience);
         return true;
+      } else {
+        this.fightBack(player, monster);
+      }
+    } else {
+      if (demage === 0) {
+        startEvent("Message", `You miss`);
+        this.fightBack(player, monster);
+      } else {
+        demage = Math.abs(demage);
+        startEvent("Message", `${monster.name} blocks your attack`);
+        if (!player.weapon.takeDamage(demage / 1.5)) {
+          startEvent("Message", `Your ${player.weapon.name} is detroyed`);
+          player.equip(new BareHands());
+        }
+        if (!monster.armor.takeDamage(demage >>> 1)) {
+          monster.equip(new CottonShirt());
+        }
+        this.fightBack(player, monster);
       }
     }
     return false;
   }
 
   fightBack(player: Player, monster: Monster) {
-    let atk = this.attack(monster, player);
-    if (atk < 0) {
-      startEvent("Message", `You blocked ${monster.name}'s attack.`);
-      monster.weapon.getDamage(atk / 1.5);
-      player.armor.getDamage(atk >>> 1);
-    } else if (atk === 0) {
-      startEvent("Message", `${monster.name} miss you.`);
+    let demage = this.attack(monster, player);
+    if (demage > 0) {
+      startEvent("Message", `${monster.name} hits you for ${demage} damage`);
+      if (!monster.weapon.takeDamage(demage >>> 1)) {
+        monster.equip(new BareHands());
+      }
+      if (!player.armor.takeDamage(demage / 1.5)) {
+        startEvent("Message", `Your ${player.armor.name} is detroyed`);
+        player.equip(new CottonShirt());
+      }
+      player.takeDamage(demage, monster);
     } else {
-      startEvent("Message", `${monster.name} hits you for ${atk} damage.`);
-      monster.weapon.getDamage(atk >>> 1);
-      player.armor.getDamage(atk / 1.5);
-      player.takeDamage(atk, monster);
+      if (demage === 0) {
+        startEvent("Message", `${monster.name} misses`);
+      } else {
+        demage = Math.abs(demage);
+        startEvent("Message", `You blocked ${monster.name}'s attack`);
+        if (!monster.weapon.takeDamage(demage / 1.5)) {
+          monster.equip(new BareHands());
+        }
+        if (!player.armor.takeDamage(demage >>> 1)) {
+          startEvent("Message", `Your ${player.armor.name} is detroyed`);
+          player.equip(new CottonShirt());
+        }
+      }
     }
   }
 }

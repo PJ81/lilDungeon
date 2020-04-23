@@ -4,8 +4,8 @@ import Armor from "./armor.js";
 export default class Chainmail extends Armor {
   constructor(idx: number) {
     super("Chainmail", CHAINMAIL, idx);
-    this.defense = 2;
-    this.health = 1;
-    this.defChance = 15;
+    this.health = this.healthMax = 10;
+    this.defense = this.defenseMax = 8;
+    this.defChance = 65;
   }
 }

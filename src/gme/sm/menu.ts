@@ -1,6 +1,7 @@
 import { HEIGHT, PLAY, PRESSED, WIDTH } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
 import NameGen from "../tools/namegen.js";
+import { printBorders } from "../tools/startMsg.js";
 import State from "./state.js";
 
 export default class Menu extends State {
@@ -29,26 +30,25 @@ export default class Menu extends State {
 
   draw(ctx: CanvasRenderingContext2D) {
     const m = WIDTH >> 1;
-    //ctx.font = "30px Roboto Mono";
     ctx.fillStyle = "#fff";
     ctx.textAlign = "center";
-    //ctx.fillText("####", m, 80);
-
-    ctx.font = "18px Roboto Mono";
-    let l = 150;
+    ctx.font = "10px Roboto Mono";
+    let l = 50;
     ctx.fillText(`Welcome ${this.playername}!`, m, l);
-    ctx.font = "11px Roboto Mono";
-    ctx.fillText(`If you'd prefer another name, press[N]`, m, l + 25);
+    ctx.font = "6px Roboto Mono";
+    ctx.fillText(`If you'd prefer another name, press[N]`, m, l + 12);
 
-    ctx.font = "12px Roboto Mono";
-    l = 240;
-    ctx.fillText(`If you feel brave enough, find all six sacred`, m, l);
-    ctx.fillText(`items scattered in the dungeon and bring them`, m, l += 20);
-    ctx.fillText(`to the sanctuary in its deepest level.`, m, l += 20);
-    ctx.fillText(`This is not going to be an easy task...`, m, l += 20);
+    ctx.font = "7px Roboto Mono";
+    l = 105;
+    ctx.fillText(`If you feeling brave enough, try to find all`, m, l);
+    ctx.fillText(`six sacred items scattered in the dungeon and`, m, l += 10);
+    ctx.fillText(`bring them to the sanctuary in its deepest level.`, m, l += 10);
+    ctx.fillText(`This is not going to be an easy task...`, m, l += 10);
     ctx.fillText(`I wish you luck, ${this.playername}.`, m, l += 20);
 
-    ctx.font = "10px Roboto Mono";
+    ctx.font = "6px Roboto Mono";
     ctx.fillText("PRESS [SPACE] TO PLAY", m, HEIGHT * .95);
+
+    printBorders(ctx);
   }
 }

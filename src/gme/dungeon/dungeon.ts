@@ -37,6 +37,16 @@ export default class Dungeon {
     this.getDistance = (a: number, b: number, c: number, d: number): number => { return this.rooms[a][b].position.distSqr(this.rooms[c][d].position) };
   }
 
+  countMonsters(): number {
+    let mc = 0;
+    this.rooms.forEach(c => {
+      c.forEach(r => {
+        if (r) mc += r.items.filter(i => i instanceof Monster).length;
+      });
+    });
+    return mc;
+  }
+
   create(wid: number, hei: number, lvl: number): Room {
     this.wid = wid;
     this.hei = hei;
@@ -44,7 +54,7 @@ export default class Dungeon {
     const startPos = new Point(this.wid >> 1, this.hei >> 1);
 
     while (true) {
-      if (this.rooms.length > 0) this.clearRooms();
+      if (this.rooms.length > 0) this.deleteRooms();
 
       for (let x = 0; x < this.wid; x++) {
         this.rooms.push([]);
@@ -60,21 +70,29 @@ export default class Dungeon {
       const tmpRooms: Array<Room> = [];
       tmpRooms.push(r);
 
-      while (tmpRooms.length) {
-        r = tmpRooms.splice(0, 1)[0];
+      let counter = 0;
+      while (counter < 20) {
+        r = tmpRooms[Const.lcg.randNbrI(tmpRooms.length)];
         this.addDoors(r, tmpRooms);
+        counter++;
       }
 
-      while (true) {
-        const a = Const.lcg.randNbrI(this.wid), b = Const.lcg.randNbrI(this.hei);
-        if (this.rooms[a][b] && this.getDistance(startPos.x, startPos.y, a, b) > 22) {
-          const r = this.rooms[a][b];
-          r.clearItems();
-          const q = [Const.VSE, Const.VSW, Const.VNE, Const.VNW][Const.lcg.randNbrI(4)];
-          this.rooms[a][b].items[q] = new Item("Stairs", Const.STAIRS, q);
-          this.rooms[a][b].hasStairs = true;
-          break;
-        }
+
+      let u = null, md = 0, d: number;
+      this.rooms.forEach(c => {
+        c.forEach(r => {
+          if (r) {
+            d = this.getDistance(startPos.x, startPos.y, r.position.x, r.position.y);
+            if (d > md) { md = d; u = r }
+          }
+        });
+      });
+
+      if (u) {
+        u.clearItems();
+        const q = [Const.VSE, Const.VSW, Const.VNE, Const.VNW][Const.lcg.randNbrI(4)];
+        u.items[q] = new Item("Stairs", Const.STAIRS, q);
+        u.hasStairs = true;
       }
 
       if ((this.lvl & 1) === 1 && this.lvl > 1) {
@@ -97,20 +115,20 @@ export default class Dungeon {
 
   addDoors(r: Room, tr: Room[]) {
     let d = 0, count = 0, s: Room;
-    while (d < 1 && count < 1250) {
-      if (Const.lcg.randPercent() < 25 && !r.neighbours[Const.VN] && r.position.y - 1 >= 0 && !this.rooms[r.position.x][r.position.y - 1]) {
+    while (d < 1 && count < 1500) {
+      if (Const.lcg.randPercent() < 45 && !r.neighbours[Const.VN] && r.position.y - 1 >= 0 && !this.rooms[r.position.x][r.position.y - 1]) {
         tr.push(this.addRoom(r, r.position.x, r.position.y - 1, Const.VN, Const.VS));
         d++;
       }
-      if (Const.lcg.randPercent() < 25 && !r.neighbours[Const.VE] && r.position.x + 1 < this.wid && !this.rooms[r.position.x + 1][r.position.y]) {
+      if (Const.lcg.randPercent() < 45 && !r.neighbours[Const.VE] && r.position.x + 1 < this.wid && !this.rooms[r.position.x + 1][r.position.y]) {
         tr.push(this.addRoom(r, r.position.x + 1, r.position.y, Const.VE, Const.VW));
         d++;
       }
-      if (Const.lcg.randPercent() < 25 && !r.neighbours[Const.VS] && r.position.y + 1 < this.hei && !this.rooms[r.position.x][r.position.y + 1]) {
+      if (Const.lcg.randPercent() < 45 && !r.neighbours[Const.VS] && r.position.y + 1 < this.hei && !this.rooms[r.position.x][r.position.y + 1]) {
         tr.push(this.addRoom(r, r.position.x, r.position.y + 1, Const.VS, Const.VN));
         d++;
       }
-      if (Const.lcg.randPercent() < 25 && !r.neighbours[Const.VW] && r.position.x - 1 >= 0 && !this.rooms[r.position.x - 1][r.position.y]) {
+      if (Const.lcg.randPercent() < 45 && !r.neighbours[Const.VW] && r.position.x - 1 >= 0 && !this.rooms[r.position.x - 1][r.position.y]) {
         tr.push(this.addRoom(r, r.position.x - 1, r.position.y, Const.VW, Const.VE));
         d++;
       }
@@ -180,7 +198,7 @@ export default class Dungeon {
     return mon;
   }
 
-  clearRooms() {
+  deleteRooms() {
     for (let x = this.wid - 1; x > -1; x--) {
       for (let y = this.hei - 1; y > -1; y--) {
         if (this.rooms[x][y]) {
@@ -217,7 +235,7 @@ export default class Dungeon {
     this.rooms.forEach(c => {
       c.forEach(r => {
         if (r && !r.locked && !r.hasStairs && !r.position.equals(startPos)) {
-          d = this.getDistance(t.position.x, t.position.x, r.position.x, r.position.y);
+          d = this.getDistance(t.position.x, t.position.y, r.position.x, r.position.y);
           if (d > md) { md = d; u = r }
         }
       });
@@ -233,9 +251,5 @@ export default class Dungeon {
     }
 
     return true;
-  }
-
-  createSanctuary() {
-    //
   }
 }

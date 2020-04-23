@@ -6,6 +6,6 @@ export default class Coin extends Item {
 
   constructor(idx: number) {
     super("Coin", COIN, idx);
-    this.count = lcg.rollDice(3, 5);
+    this.count = lcg.rollDice(1, 7);
   }
 }

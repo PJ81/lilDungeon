@@ -5,7 +5,7 @@ export const
   //linear congruential generator
   lcg = new LCG(),
 
-  WIDTH = 480, HEIGHT = 480, SCALE = 1, TILE_S = 9,
+  WIDTH = 240, HEIGHT = 240, SCALE = 2, TILE_S = 9,
   PRESSED = 1, RELEASED = 0,
   ARMOR = 1, WEAPON = 2,
   NO_TYPE = -1, NO_POS = -1,

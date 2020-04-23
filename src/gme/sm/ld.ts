@@ -1,4 +1,4 @@
-import { E, lcg, N, NE, NW, ORDINALS, PRESSED, S, SACRED, SANC, SANCTUARY, SE, SW, VE, VN, VNE, VNW, VS, VSE, VSW, VW, W } from "../../eng/const.js";
+import { E, lcg, N, NE, NW, ORDINALS, PRESSED, S, SANC, SANCTUARY, SE, SW, VE, VN, VNE, VNW, VS, VSE, VSW, VW, W } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
 import CurrentRoom from "../dungeon/currentRoom.js";
 import Dungeon from "../dungeon/dungeon.js";
@@ -14,7 +14,7 @@ import Trap from "../items/pickups/trap.js";
 import Weapon from "../items/weapon/weapon.js";
 import FightManager from "../managers/fightManager.js";
 import HitManager from "../managers/hitManager.js";
-import startEvent from "../tools/startMsg.js";
+import { startEvent } from "../tools/startMsg.js";
 import State from "./state.js";
 
 export default class LilDung extends State {
@@ -33,7 +33,6 @@ export default class LilDung extends State {
     window.addEventListener("Action", (e: CustomEvent) => this.handleAction(e.detail));
     window.addEventListener("Message", (e: CustomEvent) => this.outputMsg(e.detail));
     this.statsDiv = <HTMLDivElement>document.getElementById("stats");
-    this.draw = () => this.curRoom.draw(this.player.demTime);
     this.takeAStep = (dir: number) => this.curRoom.updateRoom(dir, this.player.hasKey);
     this.newLevel = () => this.curRoom.setRoom(this.dungeon.create(10, 10, this.player.depth));
 
@@ -62,6 +61,11 @@ export default class LilDung extends State {
       case "Sacred": this.sacred(action.arg2); break;
     }
     this.showStats();
+  }
+
+  draw() {
+    const mc = this.dungeon.countMonsters();
+    this.curRoom.draw(this.player.demTime);
   }
 
   update(dt: number) {
@@ -114,7 +118,7 @@ export default class LilDung extends State {
         }
       }));
     } else {
-      startEvent("Message", `Welcome to level ${this.player.depth}, ${this.player.name}!`);
+      startEvent("Message", `Welcome to level ${this.player.depth}`);//, ${this.player.name}!
       this.newLevel();
     }
   }
@@ -151,13 +155,13 @@ export default class LilDung extends State {
     if (this.player.health > this.player.healthMax) {
       this.player.health = this.player.healthMax;
     }
-    startEvent("Message", `You receive some energie from this ${item.name}.`);
+    startEvent("Message", `You receive some energie from this ${item.name}`);
   }
 
   coins(item: Coin) {
     this.curRoom.clearItem(item.slotIdx);
     this.player.gold += item.count;
-    startEvent("Message", `You found ${item.count} coins.`);
+    startEvent("Message", `You found ${item.count} coins`);
   }
 
   equipWeapon(weapon: Weapon) {
@@ -181,7 +185,7 @@ export default class LilDung extends State {
   key(key: Item) {
     this.player.hasKey = true;
     this.curRoom.clearItem(key.slotIdx);
-    startEvent("Message", `You found the key for the ${SACRED[this.player.depth - 3][0]}`);
+    startEvent("Message", `You found a key`);
   }
 
   sacred(item: Item) {
@@ -192,8 +196,8 @@ export default class LilDung extends State {
 
   showStats() {
     const s = `Level: ${this.player.level}  Health: ${this.player.health}(${this.player.healthMax})  ` +
-      `Attack: ${this.player.attack + this.player.weapon.attack}(${this.player.attackMax + this.player.weapon.attack})  ` +
-      `Def: ${this.player.defense + this.player.armor.defense}(${this.player.defenseMax + this.player.armor.defense})  ` +
+      `Attack: ${this.player.attack + this.player.weapon.attack}(${this.player.attackMax + this.player.weapon.attackMax})  ` +
+      `Def: ${this.player.defense + this.player.armor.defense}(${this.player.defenseMax + this.player.armor.defenseMax})  ` +
       `Gold: ${this.player.gold}  Exp: ${this.player.experience}(${this.player.experience + this.player.pointsToNextLevel})`;
     this.statsDiv.innerText = s;
   }

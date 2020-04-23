@@ -13,14 +13,12 @@ export default class Entity extends Item {
   health: number;
   attack: number;
   defense: number;
-  hitChance: number;
+  atkChance: number;
   defChance: number;
   experience: number;
   healthMax: number;
   attackMax: number;
   defenseMax: number;
-  hitChanceMax: number;
-  defChanceMax: number;
 
   constructor(name: string, type: number, idx: number) {
     super(name, type, idx);
@@ -28,7 +26,7 @@ export default class Entity extends Item {
     this.armor = new CottonShirt();
     this.experience = 0;
     this.health = 0;
-    this.hitChance = 0;
+    this.atkChance = 0;
     this.defChance = 0;
     this.attack = 0;
     this.defense = 0;
@@ -36,8 +34,6 @@ export default class Entity extends Item {
     this.healthMax = 0;
     this.attackMax = 0;
     this.defenseMax = 0;
-    //this.hitChanceMax = 0;
-    //this.defChanceMax = 0;
   }
 
   equip(eq: Equipment) {
@@ -66,7 +62,7 @@ export default class Entity extends Item {
     this.health = this.healthMax = t;
     this.attackMax = this.attack = a;
     this.defenseMax = this.defense = d;
-    this.hitChance = h;
+    this.atkChance = h;
     this.defChance = c;
   }
 
@@ -84,9 +80,9 @@ export default class Entity extends Item {
     }
   }
 
-  takeDamage(d: number, e: Item) {
-    if (d < 1) return;
+  takeDamage(d: number, e: Item): boolean {
     this.health -= d;
     this.demTime = .2;
+    return this.health > 0;
   }
 }

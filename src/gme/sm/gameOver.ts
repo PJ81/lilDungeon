@@ -55,10 +55,21 @@ export default class GameOver extends State {
     ctx.fillText(`${this.player.name}, you were killed by a ${this.killer.name} in the dungeon`, m, 350);
     ctx.fillText(`level ${this.player.depth}, with ${this.player.experience} points and ${this.player.gold} pieces of gold.`, m, 367);
     ctx.fillText(`After ${this.player.moves} moves, you were level ${this.player.level},`, m, 384);
-    ctx.fillText(`with a maximum of ${this.player.attack + this.player.weapon.attack} hit points.`, m, 401);
+    ctx.fillText(`with a maximum of ${this.player.attackMax + this.player.weapon.attackMax} hit points.`, m, 401);
 
     ctx.font = "10px Roboto Mono";
     ctx.fillText("PRESS [SPACE] TO PLAY", m, HEIGHT * .95);
+
+    ctx.textAlign = "left";
+    ctx.font = "20px Roboto Mono";
+    for (let r = 38; r < 468; r += 20) {
+      ctx.fillText("!", 6, r);
+      ctx.fillText("!", 462, r);
+    }
+
+    ctx.font = "18px Roboto Mono";
+    ctx.fillText("+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+", 7, 16);
+    ctx.fillText("+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+", 7, 477);
   }
 
   makeLine(w: string): string {

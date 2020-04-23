@@ -2,7 +2,7 @@ import { GMOR, lcg, NO_POS, PLAYER } from "../../eng/const.js";
 import CottonShirt from "../items/armor/cottonShirt.js";
 import Item from "../items/item.js";
 import BareHands from "../items/weapon/bareHands.js";
-import startEvent from "../tools/startMsg.js";
+import { startEvent } from "../tools/startMsg.js";
 import Entity from "./entity.js";
 
 export default class Player extends Entity {
@@ -42,16 +42,17 @@ export default class Player extends Entity {
       this.healthMax += 2;
       this.attackMax += 2;
       this.defenseMax += 2;
-      this.hitChance++;
+      this.atkChance++;
       this.defChance++;
       this.health += lcg.rollDice(2, 3);
       if (this.health > this.healthMax) this.health = this.healthMax;
-
-      startEvent("Message", `Level up.`);
+      this.attack = this.attackMax;
+      this.defense = this.defenseMax;
+      startEvent("Message", `Level up`);
     }
   }
 
-  takeDamage(d: number, item: Item) {
+  takeDamage(d: number, item: Item): boolean {
     super.takeDamage(d, item);
     if (this.health <= 0) {
       window.dispatchEvent(new CustomEvent("StateChange", {
@@ -61,6 +62,8 @@ export default class Player extends Entity {
           killer: item
         }
       }));
+      return false;
     }
+    return true;
   }
 }

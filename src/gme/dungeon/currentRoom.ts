@@ -3,7 +3,7 @@ import Point from "../../eng/point.js";
 import Resources from "../../eng/resources.js";
 import Monster from "../entity/monsters/monster.js";
 import Item from "../items/item.js";
-import startEvent from "../tools/startMsg.js";
+import { startEvent } from "../tools/startMsg.js";
 import Room from "./room.js";
 
 export default class CurrentRoom {
@@ -35,8 +35,8 @@ export default class CurrentRoom {
   updateRoom(i: number, playerHasKey: boolean) {
     const r = this.room.neighbours[i];
     if (!r) return;
-    if (r.locked && playerHasKey) {
-      startEvent("Message", `This door is locked, can't open it!`);
+    if (r.locked && !playerHasKey) {
+      startEvent("Message", `This door is locked`);
     } else {
       r.lock(false);
       this.setRoom(r);
@@ -93,6 +93,7 @@ export default class CurrentRoom {
       for (let s = 0; s < 8; s++) {
         const itm = r.items[s];
         if (itm) {
+          //if(itm.type === Const.STAIRS && )
           const x = Const.SLOTS_POS[itm.slotIdx].x,
             y = Const.SLOTS_POS[itm.slotIdx].y,
             ty = itm instanceof Monster ? itm.demTime > 0 ? itm.type + Const.MON_COUNT + 1 : itm.type : itm.type;

@@ -1,4 +1,3 @@
-import startEvent from "../../tools/startMsg.js";
 import Equipment from "../equipment.js";
 
 export default class Armor extends Equipment {
@@ -10,15 +9,12 @@ export default class Armor extends Equipment {
     super(name, type, idx);
   }
 
-  getDamage(d: number) {
+  takeDamage(d: number): boolean {
     this.health -= d;
-    if (this.health < 1) {
-      startEvent("Message", `Your ${this.name} is detroyed!`);
-      return;
-    }
+    if (this.health < 1) return false;
 
     const ph = 100 * this.health / this.healthMax;
     this.defense = ~~(ph * this.defenseMax / 100);
-    if (this.defense < 1) this.defense = 1;
+    return this.defense > 0;
   }
 }

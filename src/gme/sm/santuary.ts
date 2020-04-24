@@ -25,7 +25,7 @@ export default class Sanctuary extends State {
 
   draw(ctx: CanvasRenderingContext2D) {
     if (this.player.sacredItems.length > 5) this.drawWin(ctx);
-    else this.drawLose(ctx);
+    else this.drawLose(ctx); // <-- this should never happen!
 
     ctx.font = "6px Roboto Mono";
     ctx.fillText("PRESS [SPACE] TO PLAY", WIDTH >> 1, HEIGHT * .95);

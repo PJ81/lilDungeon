@@ -37,6 +37,24 @@ export default class Dungeon {
     this.getDistance = (a: number, b: number, c: number, d: number): number => { return this.rooms[a][b].position.distSqr(this.rooms[c][d].position) };
   }
 
+  createStairs(pos: Point) {
+    let u = null, md = 0, d: number;
+    this.rooms.forEach(c => {
+      c.forEach(r => {
+        if (r) {
+          d = this.getDistance(pos.x, pos.y, r.position.x, r.position.y);
+          if (d > md) { md = d; u = r }
+        }
+      });
+    });
+    if (u) {
+      const q = [Const.VSE, Const.VSW, Const.VNE, Const.VNW][Const.lcg.randNbrI(4)];
+      u.items[q] = null;
+      u.items[q] = new Item("Stairs", Const.STAIRS, q);
+      u.hasStairs = true;
+    }
+  }
+
   countMonsters(): number {
     let mc = 0;
     this.rooms.forEach(c => {
@@ -75,24 +93,6 @@ export default class Dungeon {
         r = tmpRooms[Const.lcg.randNbrI(tmpRooms.length)];
         this.addDoors(r, tmpRooms);
         counter++;
-      }
-
-
-      let u = null, md = 0, d: number;
-      this.rooms.forEach(c => {
-        c.forEach(r => {
-          if (r) {
-            d = this.getDistance(startPos.x, startPos.y, r.position.x, r.position.y);
-            if (d > md) { md = d; u = r }
-          }
-        });
-      });
-
-      if (u) {
-        u.clearItems();
-        const q = [Const.VSE, Const.VSW, Const.VNE, Const.VNW][Const.lcg.randNbrI(4)];
-        u.items[q] = new Item("Stairs", Const.STAIRS, q);
-        u.hasStairs = true;
       }
 
       if ((this.lvl & 1) === 1 && this.lvl > 1) {

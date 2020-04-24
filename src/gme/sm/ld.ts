@@ -33,6 +33,7 @@ export default class LilDung extends State {
     window.addEventListener("Action", (e: CustomEvent) => this.handleAction(e.detail));
     window.addEventListener("Message", (e: CustomEvent) => this.outputMsg(e.detail));
     this.statsDiv = <HTMLDivElement>document.getElementById("stats");
+    this.draw = () => this.curRoom.draw(this.player.demTime);
     this.takeAStep = (dir: number) => this.curRoom.updateRoom(dir, this.player.hasKey);
     this.newLevel = () => this.curRoom.setRoom(this.dungeon.create(10, 10, this.player.depth));
 
@@ -61,11 +62,6 @@ export default class LilDung extends State {
       case "Sacred": this.sacred(action.arg2); break;
     }
     this.showStats();
-  }
-
-  draw() {
-    const mc = this.dungeon.countMonsters();
-    this.curRoom.draw(this.player.demTime);
   }
 
   update(dt: number) {
@@ -127,6 +123,10 @@ export default class LilDung extends State {
     if (this.fightManager.fight(this.player, monster)) {
       if (!this.dropItem(monster)) {
         this.curRoom.clearItem(monster.slotIdx);
+      }
+      if (this.dungeon.countMonsters() === 0) {
+        this.dungeon.createStairs(this.curRoom.room.position);
+        console.log(`Stairs created at ${this.curRoom.room.position}`);
       }
     }
   }

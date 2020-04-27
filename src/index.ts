@@ -1,4 +1,4 @@
-import { GMOR, MENU, PLAY, SANC } from "./eng/const.js";
+import { MENU } from "./eng/const.js";
 import Game from "./eng/game.js";
 import GameOver from "./gme/sm/gameOver.js";
 import LilDung from "./gme/sm/ld.js";
@@ -21,36 +21,35 @@ class MyGame extends Game {
     this.menu = new Menu();
     this.over = new GameOver();
     this.sanc = new Sanctuary();
+    this.curState = null;
+
+    this.update = (dt: number) => this.curState.update(dt);
+    this.draw = () => this.curState.draw(this.ctx);
 
     window.addEventListener("StateChange", (e: CustomEvent) => {
       this.keyboard.clear();
-      switch (e.detail.state) {
-        case PLAY:
-          this.curState = this.game;
-          this.curState.start(this.keyboard, (<Menu>this.menu).playername)
-          break;
-        case MENU:
-          this.curState = this.menu;
-          this.curState.start(this.keyboard);
-          break;
-        case GMOR:
-          this.curState = this.over;
-          this.curState.start(this.keyboard, e.detail.player, e.detail.killer);
-          break;
-        case SANC:
-          this.curState = this.sanc;
-          this.curState.start(this.keyboard, e.detail.player);
-          break;
-      }
+      [null, this.startPlay, this.startMenu, this.startOver, this.startSanc][e.detail.state](e);
     });
   }
 
-  update(dt: number) {
-    this.curState.update(dt);
+  startPlay(e: CustomEvent) {
+    this.curState = this.game;
+    this.curState.start(this.keyboard, e.detail.playerName);
   }
 
-  draw() {
-    this.curState.draw(this.ctx);
+  startMenu(e: CustomEvent) {
+    this.curState = this.menu;
+    this.curState.start(this.keyboard);
+  }
+
+  startOver(e: CustomEvent) {
+    this.curState = this.over;
+    this.curState.start(this.keyboard, e.detail.player, e.detail.killer);
+  }
+
+  startSanc(e: CustomEvent) {
+    this.curState = this.sanc;
+    this.curState.start(this.keyboard, e.detail.player);
   }
 }
 

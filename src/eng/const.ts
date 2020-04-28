@@ -103,8 +103,8 @@ export const
   SANCTUARY = 15,
 
   // states
-  PLAY = 1,
-  MENU = 2,
-  GMOR = 3,
-  SANC = 4;
+  PLAY = 0,
+  MENU = 1,
+  GMOR = 2,
+  SANC = 3;
 

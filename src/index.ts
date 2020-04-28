@@ -14,6 +14,7 @@ class MyGame extends Game {
   over: State;
   menu: State;
   sanc: Sanctuary;
+  startFunc: Function[];
 
   constructor() {
     super();
@@ -23,12 +24,14 @@ class MyGame extends Game {
     this.sanc = new Sanctuary();
     this.curState = null;
 
+    this.startFunc = [this.startPlay.bind(this), this.startMenu.bind(this), this.startOver.bind(this), this.startSanc.bind(this)];
+
     this.update = (dt: number) => this.curState.update(dt);
     this.draw = () => this.curState.draw(this.ctx);
 
     window.addEventListener("StateChange", (e: CustomEvent) => {
       this.keyboard.clear();
-      [null, this.startPlay, this.startMenu, this.startOver, this.startSanc][e.detail.state](e);
+      this.startFunc[e.detail.state](e);
     });
   }
 

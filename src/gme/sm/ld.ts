@@ -166,13 +166,13 @@ export default class LilDung extends State {
   equipWeapon(weapon: Weapon) {
     this.curRoom.clearItem(weapon.slotIdx);
     this.player.equip(weapon);
-    startEvent("Message", `You're armed with a ${weapon.name}`);
+    startEvent("Message", `You're wielding a ${weapon.name}`);
   }
 
   equipArmor(armor: Armor) {
     this.curRoom.clearItem(armor.slotIdx);
     this.player.equip(armor);
-    startEvent("Message", `You're using a ${armor.name}`);
+    startEvent("Message", `You're armored with a ${armor.name}`);
   }
 
   trap(trap: Trap) {

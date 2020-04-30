@@ -1,4 +1,4 @@
-import { HEIGHT, PLAY, PRESSED, WIDTH } from "../../eng/const.js";
+import { PLAY, PRESSED, WIDTH } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
 import NameGen from "../tools/namegen.js";
 import { printBorders } from "../tools/startMsg.js";
@@ -46,9 +46,6 @@ export default class Menu extends State {
     ctx.fillText(`bring them to the sanctuary in its deepest level.`, m, l += 10);
     ctx.fillText(`This is not going to be an easy task...`, m, l += 10);
     ctx.fillText(`I wish you luck, ${this.playerName}.`, m, l += 20);
-
-    ctx.font = "6px Roboto Mono";
-    ctx.fillText("PRESS [SPACE] TO PLAY", m, HEIGHT * .95);
 
     printBorders(ctx);
   }

@@ -1,3 +1,5 @@
+import { HEIGHT, WIDTH } from "../../eng/const.js";
+
 function startEvent(action: string, ...actions: any[]) {
   window.dispatchEvent(new CustomEvent(action, {
     detail: {
@@ -8,6 +10,9 @@ function startEvent(action: string, ...actions: any[]) {
 }
 
 function printBorders(ctx: CanvasRenderingContext2D) {
+  ctx.font = "6px Roboto Mono";
+  ctx.fillText("PRESS [SPACE] TO PLAY", WIDTH >> 1, HEIGHT * .95);
+
   ctx.textAlign = "left";
   ctx.font = "10px Roboto Mono";
   for (let r = 19; r < 234; r += 10) {

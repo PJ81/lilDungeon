@@ -1,7 +1,8 @@
-import { HEIGHT, MENU, WIDTH } from "../../eng/const.js";
+import { MENU, WIDTH } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
 import Player from "../entity/player.js";
 import Item from "../items/item.js";
+import { printBorders } from "../tools/startMsg.js";
 import State from "./state.js";
 
 export default class GameOver extends State {
@@ -57,19 +58,7 @@ export default class GameOver extends State {
     ctx.fillText(`After ${this.player.moves} moves, you were level ${this.player.level},`, m, 384);
     ctx.fillText(`with a maximum of ${this.player.attackMax + this.player.weapon.attackMax} hit points.`, m, 401);
 
-    ctx.font = "10px Roboto Mono";
-    ctx.fillText("PRESS [SPACE] TO PLAY", m, HEIGHT * .95);
-
-    ctx.textAlign = "left";
-    ctx.font = "20px Roboto Mono";
-    for (let r = 38; r < 468; r += 20) {
-      ctx.fillText("!", 6, r);
-      ctx.fillText("!", 462, r);
-    }
-
-    ctx.font = "18px Roboto Mono";
-    ctx.fillText("+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+", 7, 16);
-    ctx.fillText("+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+", 7, 477);
+    printBorders(ctx);
   }
 
   makeLine(w: string): string {

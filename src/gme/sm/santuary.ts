@@ -1,4 +1,4 @@
-import { HEIGHT, MENU, WIDTH } from "../../eng/const.js";
+import { MENU, WIDTH } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
 import Player from "../entity/player.js";
 import { printBorders } from "../tools/startMsg.js";
@@ -26,9 +26,6 @@ export default class Sanctuary extends State {
   draw(ctx: CanvasRenderingContext2D) {
     if (this.player.sacredItems.length > 5) this.drawWin(ctx);
     else this.drawLose(ctx); // <-- this should never happen!
-
-    ctx.font = "6px Roboto Mono";
-    ctx.fillText("PRESS [SPACE] TO PLAY", WIDTH >> 1, HEIGHT * .95);
 
     printBorders(ctx);
   }

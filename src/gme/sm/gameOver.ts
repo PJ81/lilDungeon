@@ -5,12 +5,12 @@ import Item from "../items/item.js";
 import { printBorders } from "../tools/startMsg.js";
 import State from "./state.js";
 
-export default class GameOver extends State {
+export default class GameOver implements State {
   killer: Item;
   player: Player;
+  update: (dt: number) => void;
 
   constructor() {
-    super();
     this.update = (dt: number) => { }
   }
 

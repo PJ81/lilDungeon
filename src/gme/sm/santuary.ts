@@ -4,11 +4,11 @@ import Player from "../entity/player.js";
 import { printBorders } from "../tools/startMsg.js";
 import State from "./state.js";
 
-export default class Sanctuary extends State {
+export default class Sanctuary implements State {
   player: Player;
+  update: (dt: number) => void;
 
   constructor() {
-    super();
     this.update = (dt: number) => { }
   }
 

@@ -4,13 +4,13 @@ import NameGen from "../tools/namegen.js";
 import { printBorders } from "../tools/startMsg.js";
 import State from "./state.js";
 
-export default class Menu extends State {
+export default class Menu implements State {
   nameGen: NameGen;
   playerName: string;
   newName: () => void;
+  update: (dt: number) => void;
 
   constructor() {
-    super();
     this.update = (dt: number) => { }
     this.newName = () => { this.playerName = this.nameGen.getName(); }
     this.nameGen = new NameGen();

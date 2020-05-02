@@ -17,7 +17,7 @@ import HitManager from "../managers/hitManager.js";
 import { startEvent } from "../tools/startMsg.js";
 import State from "./state.js";
 
-export default class LilDung extends State {
+export default class LilDung implements State {
   dungeon: Dungeon;
   curRoom: CurrentRoom;
   hitManager: HitManager;
@@ -27,9 +27,9 @@ export default class LilDung extends State {
   messages: string[];
   newLevel: () => void;
   takeAStep: (dir: number) => void;
+  draw: () => void;
 
   constructor(ctx: CanvasRenderingContext2D) {
-    super();
     window.addEventListener("Action", (e: CustomEvent) => this.handleAction(e.detail));
     window.addEventListener("Message", (e: CustomEvent) => this.handleMessages(e.detail));
     this.statsDiv = <HTMLDivElement>document.getElementById("stats");

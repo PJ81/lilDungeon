@@ -1,19 +1,16 @@
 import { PLAY, PRESSED, WIDTH } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
-import NameGen from "../tools/namegen.js";
-import { printBorders } from "../tools/startMsg.js";
+import { getName, printBorders } from "../tools/tools.js";
 import State from "./state.js";
 
 export default class Menu implements State {
-  nameGen: NameGen;
   playerName: string;
   newName: () => void;
   update: (dt: number) => void;
 
   constructor() {
     this.update = (dt: number) => { }
-    this.newName = () => { this.playerName = this.nameGen.getName(); }
-    this.nameGen = new NameGen();
+    this.newName = () => { this.playerName = getName(); }
     this.newName();
   }
 

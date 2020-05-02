@@ -2,7 +2,7 @@ import { MENU, WIDTH } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
 import Player from "../entity/player.js";
 import Item from "../items/item.js";
-import { printBorders } from "../tools/startMsg.js";
+import { printBorders } from "../tools/tools.js";
 import State from "./state.js";
 
 export default class GameOver implements State {

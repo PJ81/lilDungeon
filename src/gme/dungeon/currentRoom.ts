@@ -3,7 +3,7 @@ import Point from "../../eng/point.js";
 import Resources from "../../eng/resources.js";
 import Monster from "../entity/monsters/monster.js";
 import Item from "../items/item.js";
-import { startEvent } from "../tools/startMsg.js";
+import { startEvent } from "../tools/tools.js";
 import Room from "./room.js";
 
 export default class CurrentRoom {

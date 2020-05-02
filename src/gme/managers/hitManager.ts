@@ -1,7 +1,7 @@
 import * as Const from "../../eng/const.js";
 import Monster from "../entity/monsters/monster.js";
 import Item from "../items/item.js";
-import { startEvent } from "../tools/startMsg.js";
+import { startEvent } from "../tools/tools.js";
 
 
 export default class HitManager {

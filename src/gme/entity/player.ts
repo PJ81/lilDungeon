@@ -2,7 +2,7 @@ import { GMOR, lcg, NO_POS, PLAYER } from "../../eng/const.js";
 import CottonShirt from "../items/armor/cottonShirt.js";
 import Item from "../items/item.js";
 import BareHands from "../items/weapon/bareHands.js";
-import { startEvent } from "../tools/startMsg.js";
+import { startEvent } from "../tools/tools.js";
 import Entity from "./entity.js";
 
 export default class Player extends Entity {

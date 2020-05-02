@@ -1,7 +1,7 @@
 import { MENU, WIDTH } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
 import Player from "../entity/player.js";
-import { printBorders } from "../tools/startMsg.js";
+import { printBorders } from "../tools/tools.js";
 import State from "./state.js";
 
 export default class Sanctuary implements State {

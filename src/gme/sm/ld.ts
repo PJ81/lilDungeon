@@ -14,7 +14,7 @@ import Trap from "../items/pickups/trap.js";
 import Weapon from "../items/weapon/weapon.js";
 import FightManager from "../managers/fightManager.js";
 import HitManager from "../managers/hitManager.js";
-import { startEvent } from "../tools/startMsg.js";
+import { startEvent } from "../tools/tools.js";
 import State from "./state.js";
 
 export default class LilDung implements State {

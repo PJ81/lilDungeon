@@ -4,7 +4,7 @@ import Monster from "../entity/monsters/monster.js";
 import Player from "../entity/player.js";
 import CottonShirt from "../items/armor/cottonShirt.js";
 import BareHands from "../items/weapon/bareHands.js";
-import { startEvent } from "../tools/startMsg.js";
+import { startEvent } from "../tools/tools.js";
 
 export default class FightManager {
   attack: (attacker: Entity, defender: Entity) => number;

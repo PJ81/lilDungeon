@@ -33,7 +33,7 @@ const end = "ad,ald,agr,ar,ard,eyr,far,frost,heim,hogg,in,mir,nar,nir,or,osk,rir
 //end="b'ael,bel,bub,bur,bus,ces,chus,dai,ddon,des,dhaka,el,fer,flas,gion,gon,gor,klet,kor,ksha,kuth,laas,lech,les,lion,lith,loch,lsu,mael,math,mejes,meus,mon,moth,mmut,mosh,nai,nar,neus,nex,nias,nnin,nomos,phas,r'el,raal,rept,res,rgon,riax,rith,rius,rous,rus,ruth,sias,stor,swath,tath,than,the,thra,tryus,tura,vart,ztuk,ai,an,ar,ath,en,eo,ian,is,u,or,a,aia,ana,as,ea,ene,eos,esia,ia,iad,ias,ium,ius,on,ona,ova,um,us,ya,bar,bers,blek,chak,chik,dan,dar,das,dig,dil,din,dir,dor,dur,fang,fast,gar,gas,gen,gorn,grim,gund,had,hek,hell,hir,hor,kan,kath,khad,lach,lar,ldil,ldir,leg,len,lin,mas,mnir,ndil,ndur,neg,nik,ntir,rab,rach,rain,rak,ran,rand,rath,rek,rig,rim,rin,rion,sin,sta,stir,sus,tar,thad,thel,tir,von,vor,yon,zor".split(",");
 
 function getName(): string {
-  return `${this.start[lcg.randNbrI(start.length)]}${mid[lcg.randNbrI(mid.length)]}${end[lcg.randNbrI(end.length)]}`;
+  return `${start[lcg.randNbrI(start.length)]}${mid[lcg.randNbrI(mid.length)]}${end[lcg.randNbrI(end.length)]}`;
 }
 
 

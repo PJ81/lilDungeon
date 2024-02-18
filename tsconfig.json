@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "watch": true,
     "outDir": "dst",
     "lib": ["dom", "es2017"],
     "removeComments": true

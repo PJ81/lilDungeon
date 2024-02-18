@@ -1,4 +1,4 @@
-import { E, lcg, N, NE, NW, ORDINALS, PRESSED, S, SANC, SANCTUARY, SE, SW, VE, VN, VNE, VNW, VS, VSE, VSW, VW, W } from "../../eng/const.js";
+import { E, lcg, N, NE, NW, ORDINALS, PRESSED, S, SANC, SANCTUARY, SE, SW, TRAP, VE, VN, VNE, VNW, VS, VSE, VSW, VW, W } from "../../eng/const.js";
 import Keyboard from "../../eng/keyboard.js";
 import CurrentRoom from "../dungeon/currentRoom.js";
 import Dungeon from "../dungeon/dungeon.js";
@@ -24,6 +24,7 @@ export default class LilDung implements State {
   fightManager: FightManager;
   player: Player;
   statsDiv: HTMLDivElement;
+  instsDiv: HTMLDivElement;
   messages: string[];
   newLevel: () => void;
   takeAStep: (dir: number) => void;
@@ -33,6 +34,7 @@ export default class LilDung implements State {
     window.addEventListener("Action", (e: CustomEvent) => this.handleAction(e.detail));
     window.addEventListener("Message", (e: CustomEvent) => this.handleMessages(e.detail));
     this.statsDiv = <HTMLDivElement>document.getElementById("stats");
+    this.instsDiv = <HTMLDivElement>document.getElementById("instructions");
     this.draw = () => this.curRoom.draw(this.player.demTime);
     this.takeAStep = (dir: number) => this.curRoom.updateRoom(dir, this.player.hasKey);
     this.newLevel = () => this.curRoom.setRoom(this.dungeon.create(10, 10, this.player.depth));
@@ -62,6 +64,7 @@ export default class LilDung implements State {
       case "Sacred": this.sacred(action.arg2); break;
     }
     this.showStats();
+    this.showInstructions();
   }
 
   handleMessages(msg: any) {
@@ -99,7 +102,9 @@ export default class LilDung implements State {
     keyboard.addKey(SW, (st: number) => { if (st === PRESSED) this.hitManager.hit(this.curRoom.getItem(VSW), VSW); });
     keyboard.addKey(S, (st: number) => { if (st === PRESSED) this.hitManager.hit(this.curRoom.getItem(VS), VS); });
     keyboard.addKey(SE, (st: number) => { if (st === PRESSED) this.hitManager.hit(this.curRoom.getItem(VSE), VSE); });
+
     this.showStats();
+    this.showInstructions();
   }
 
   goDownStairs() {
@@ -139,6 +144,11 @@ export default class LilDung implements State {
     }
     if (lcg.rollDice(1, 100) < 45) {
       this.curRoom.setItem(monster.slotIdx, monster.item);
+
+      if (monster.item.type === TRAP) {
+        this.trap(<Trap>monster.item, true);
+      }
+
       return true;
     }
     return false;
@@ -146,6 +156,9 @@ export default class LilDung implements State {
 
   surprise(item: Container) {
     this.curRoom.setItem(item.slotIdx, item.item);
+    if (item.item.type === TRAP) {
+      this.trap(<Trap>item.item, true);
+    }
   }
 
   eatOrDrink(item: Edible) {
@@ -175,10 +188,14 @@ export default class LilDung implements State {
     startEvent("Message", `You're armored with a ${armor.name}`);
   }
 
-  trap(trap: Trap) {
+  trap(trap: Trap, execute: boolean = false) {
     this.player.takeDamage(trap.damage, trap);
     this.curRoom.clearItem(trap.slotIdx);
-    startEvent("Message", `You step on a trap for a damage of ${trap.damage}`);
+    if (execute) {
+      startEvent("Message", `A booby trap goes off, causing ${trap.damage} points of damage`);
+    } else {
+      startEvent("Message", `You step on a trap for a damage of ${trap.damage}`);
+    }
   }
 
   key(key: Item) {
@@ -199,5 +216,10 @@ export default class LilDung implements State {
       `Def: ${this.player.defense + this.player.armor.defense}(${this.player.defenseMax + this.player.armor.defenseMax})  ` +
       `Gold: ${this.player.gold}  Exp: ${this.player.experience}(${this.player.experience + this.player.pointsToNextLevel})`;
     this.statsDiv.innerText = s;
+  }
+
+  showInstructions() {
+    const s = "To play, use the number keypad to automatically move, attack or pick.";
+    this.instsDiv.innerHTML = s;
   }
 }
